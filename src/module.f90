@@ -31,11 +31,13 @@ module pkg_xoshiro
         ! contained <procedure>s are below
         contains
 
-        
+
         ! kind: subroutine
         procedure( allocate_state_base            ) , deferred :: allocate_state
         procedure( deallocate_state_base          ) , deferred :: deallocate_state
         procedure( jump_state_core_base           ) , deferred :: jump_state_core
+        procedure( jump_state_base                ) , deferred :: jump_state
+        procedure( jump_state_long_base           ) , deferred :: jump_state_long
         procedure( random_number_sclr_int64_base  ) , deferred :: random_number_sclr_int64
         procedure( random_number_sclr_real64_base ) , deferred :: random_number_sclr_real64
         procedure( update_state_base              ) , deferred :: update_state
@@ -51,7 +53,7 @@ module pkg_xoshiro
         ! contained <procedure>s are below
         contains
 
-        
+
         ! kind: subroutine
         procedure :: allocate_state            => allocate_state_xoshiro256plus2
         procedure :: deallocate_state          => deallocate_state_xoshiro256plus2
@@ -59,6 +61,10 @@ module pkg_xoshiro
         procedure :: random_number_sclr_int64  => random_number_sclr_int64_xoshiro256plus2
         procedure :: random_number_sclr_real64 => random_number_sclr_real64_xoshiro256plus2
         procedure :: update_state              => update_state_xoshiro256plus2
+
+        procedure , public :: jump_state      => jump_state_xoshiro256plus2
+        procedure , public :: jump_state_long => jump_state_long_xoshiro256plus2
+
 
         ! kind: interface
         generic , public :: random_number => random_number_sclr_int64
@@ -92,7 +98,6 @@ module pkg_xoshiro
     ! for abstract <type> :: typ_generator64_base
     interface
 
-
         module subroutine allocate_state_base ( generator )
 
             ! argument(s) for this <subroutine>
@@ -116,6 +121,22 @@ module pkg_xoshiro
             integer (INT64)                , intent(in)    :: jump_param (:)
 
         end subroutine jump_state_core_base
+
+
+        module subroutine jump_state_base ( generator )
+
+            ! argument(s) for this <subroutine>
+            class(typ_generator64_base) , intent(inout) :: generator
+
+        end subroutine jump_state_base
+
+
+        module subroutine jump_state_long_base ( generator )
+
+            ! argument(s) for this <subroutine>
+            class(typ_generator64_base) , intent(inout) :: generator
+
+        end subroutine jump_state_long_base
 
 
         module subroutine random_number_sclr_int64_base ( generator , harvest )
@@ -172,6 +193,22 @@ module pkg_xoshiro
             integer (INT64)               , intent(in)    :: jump_param (:)
 
         end subroutine jump_state_core_xoshiro256plus2
+
+
+        module subroutine jump_state_xoshiro256plus2 ( generator )
+
+            ! argument(s) for this <subroutine>
+            class(typ_xoshiro256plus2) , intent(inout) :: generator
+
+        end subroutine jump_state_xoshiro256plus2
+
+
+        module subroutine jump_state_long_xoshiro256plus2 ( generator )
+
+            ! argument(s) for this <subroutine>
+            class(typ_xoshiro256plus2) , intent(inout) :: generator
+
+        end subroutine jump_state_long_xoshiro256plus2
 
 
         module subroutine random_number_sclr_int64_xoshiro256plus2 ( generator , harvest )

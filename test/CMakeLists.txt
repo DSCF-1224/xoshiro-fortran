@@ -13,6 +13,8 @@ add_executable(${PROJECT_NAME}
 	../src/imp_allocate_state.f90
 	../src/imp_deallocate_state.f90
 	../src/imp_jump_state_core.f90
+	../src/imp_jump_state_long.f90
+	../src/imp_jump_state.f90
 	../src/imp_random_number_sclr_int64.f90
 	../src/imp_random_number_sclr_real64.f90
 	../src/imp_rotl.f90
