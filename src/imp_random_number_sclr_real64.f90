@@ -11,7 +11,7 @@ submodule (pkg_xoshiro) imp_random_number_sclr_real64
 
         call generator%random_number( buffer )
         call generator%update_state
-        harvest = transfer( source= buffer , mold= harvest )
+        harvest = transform_to_unit_interval( buffer )
         return
 
     end procedure random_number_sclr_real64_xoshiro256plus2
