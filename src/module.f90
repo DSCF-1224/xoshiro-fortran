@@ -15,6 +15,7 @@ module pkg_xoshiro
     private
 
     ! kind: type
+    public :: typ_generator64_base
     public :: typ_xoshiro256plus2
 
 

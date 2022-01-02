@@ -23,5 +23,9 @@ add_executable(${PROJECT_NAME}
 	../src/imp_show_state.f90
 	../src/imp_transform_to_unit_interval.f90
 	../src/imp_update_state.f90
-	../src/main.f90
+	src/xoshiro_test/module.f90
+	src/xoshiro_test/test_generator/submodule.f90
+	src/xoshiro_test/test_generator/for_0256/submodule.f90
+	src/xoshiro_test/test_generator/show_sample/submodule.f90
+	src/main.f90
 )
