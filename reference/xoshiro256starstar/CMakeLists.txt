@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(test_xoshiro256p2)
+project(test_xoshiro256s2)
 
 set(CMAKE_CXX_FLAG         "-Wall -Werror -Wextra")
 set(CMAKE_CXX_FLAG_DEBUG   "-O0")

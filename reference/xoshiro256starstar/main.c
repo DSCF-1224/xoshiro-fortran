@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "xoshiro256plusplus.c"
+#include "xoshiro256starstar.c"
 #include "../handle_markdown/handle_markdown.h"
 
 
