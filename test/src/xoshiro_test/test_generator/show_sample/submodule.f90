@@ -16,7 +16,8 @@ submodule (pkg_xoshiro_test : imp_test_generator) imp_show_sample
         do itr = 1 , len_sample
 
             select type ( generator )
-                type is       ( typ_xoshiro256plus2 ) ; call generator%random_number( sample )
+            type is       ( typ_xoshiro256plus2 ) ; call generator%random_number( sample )
+            type is       ( typ_xoshiro256star2 ) ; call generator%random_number( sample )
                 class default                         ; stop
             end select
 

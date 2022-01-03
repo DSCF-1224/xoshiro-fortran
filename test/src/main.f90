@@ -11,9 +11,9 @@ program xoshiro_test
 
 
     ! support variables for this <program>
-    type( typ_xoshiro256plus2 ) :: xoshiro256plus2
+    type( typ_xoshiro256star2 ) :: xoshiro256star2
 
 
-    call test_generator( xoshiro256plus2 )
+    call test_generator( xoshiro256star2 )
 
 end program xoshiro_test

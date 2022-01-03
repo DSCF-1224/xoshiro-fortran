@@ -79,6 +79,7 @@ submodule (pkg_xoshiro_test) imp_test_generator
 
         select type ( generator )
             type is ( typ_xoshiro256plus2 ) ; call for_0256 ( generator )
+            type is ( typ_xoshiro256star2 ) ; call for_0256 ( generator )
         end select
 
         return

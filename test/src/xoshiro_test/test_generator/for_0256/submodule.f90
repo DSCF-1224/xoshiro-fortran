@@ -23,7 +23,7 @@ submodule (pkg_xoshiro_test : imp_test_generator) imp_for_0256
         call show_sample          ( generator )
 
         ! STEP.03
-        call show_header               ( 4 , 'with a jump of the generator state' )
+        call show_header               ( 4 , 'with a long jump of the generator state' )
         call set_state                 ( generator )
         call show_table_header
         call show_state                ( generator )

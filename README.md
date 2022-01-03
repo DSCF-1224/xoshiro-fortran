@@ -8,5 +8,6 @@ implementation of `xoshiro` / `xoroshiro` in Fortran 2008
 
 - [xoshiro/xoroshiro generators and the PRNG shootout](https://prng.di.unimi.it/)
   - [xoshiro256++](https://prng.di.unimi.it/xoshiro256plusplus.c)
+  - [xoshiro256**](https://prng.di.unimi.it/xoshiro256starstar.c)
 
 <!-- EOF -->

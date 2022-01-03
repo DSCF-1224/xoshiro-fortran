@@ -11,6 +11,7 @@ set(CMAKE_Fortran_FLAGS_RELEASE "-O2")
 add_executable(${PROJECT_NAME}
 	../src/module.f90
 	../src/imp_allocate_state.f90
+	../src/imp_copy_array.f90
 	../src/imp_copy_state.f90
 	../src/imp_deallocate_state.f90
 	../src/imp_jump_state_core.f90

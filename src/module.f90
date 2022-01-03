@@ -17,6 +17,7 @@ module pkg_xoshiro
     ! kind: type
     public :: typ_generator64_base
     public :: typ_xoshiro256plus2
+    public :: typ_xoshiro256star2
 
     ! kind: function
     public :: output_size_state
@@ -85,8 +86,41 @@ module pkg_xoshiro
     end type typ_xoshiro256plus2
 
 
+    type , extends(typ_generator64_base) :: typ_xoshiro256star2
+
+        ! default accessibility of the component(s) of this <type>
+        private
+
+        ! contained <procedure>s are below
+        contains
+
+        ! kind: function
+        procedure , public :: output_state => output_state_xoshiro256star2
+
+        ! kind: subroutine
+        procedure :: allocate_state            => allocate_state_xoshiro256star2
+        procedure :: deallocate_state          => deallocate_state_xoshiro256star2
+        procedure :: jump_state_core           => jump_state_core_xoshiro256star2
+        procedure :: random_number_sclr_int64  => random_number_sclr_int64_xoshiro256star2
+        procedure :: random_number_sclr_real64 => random_number_sclr_real64_xoshiro256star2
+        procedure :: update_state              => update_state_xoshiro256star2
+
+        procedure , public :: copy_state      => copy_state_xoshiro256star2
+        procedure , public :: jump_state      => jump_state_xoshiro256star2
+        procedure , public :: jump_state_long => jump_state_long_xoshiro256star2
+        procedure , public :: set_state       => set_state_xoshiro256star2
+
+
+        ! kind: interface
+        generic , public :: random_number => random_number_sclr_int64
+        generic , public :: random_number => random_number_sclr_real64
+
+    end type typ_xoshiro256star2
+
+
     ! constant(s) for this <module>
     integer , parameter :: size_state_xoshiro256plus2 = 4
+    integer , parameter :: size_state_xoshiro256star2 = 4
 
 
     ! <interface>s for this <module>
@@ -136,6 +170,21 @@ module pkg_xoshiro
         end function transform_to_unit_interval
 
     end interface
+
+
+    interface copy_array
+
+        module subroutine copy_array_int64 ( size_dst , size_src , val_dst , val_src )
+
+            ! arguments for this <subroutine>
+            integer         , intent(in)    :: size_dst
+            integer         , intent(in)    :: size_src
+            integer (INT64) , intent(inout) :: val_dst  (:)
+            integer (INT64) , intent(in)    :: val_src  (:)
+
+        end subroutine copy_array_int64
+
+    end interface copy_array
 
 
     ! for abstract <type> :: typ_generator64_base
@@ -338,6 +387,108 @@ module pkg_xoshiro
             class(typ_xoshiro256plus2) , intent(inout) :: generator
 
         end subroutine update_state_xoshiro256plus2
+
+    end interface
+
+
+    ! for extended <type> :: typ_xoshiro256star2
+    interface
+
+        module pure elemental function output_state_xoshiro256star2 ( generator , index ) result( state )
+
+            ! arguments for this <function>
+            class   (typ_xoshiro256star2) , intent(in) :: generator
+            integer                       , intent(in) :: index
+
+            ! return value of this <function>
+            integer(INT64) :: state
+
+        end function output_state_xoshiro256star2
+
+
+        module subroutine allocate_state_xoshiro256star2 ( generator )
+
+            ! argument(s) for this <subroutine>
+            class(typ_xoshiro256star2) , intent(inout) :: generator
+
+        end subroutine allocate_state_xoshiro256star2
+
+
+        module subroutine copy_state_xoshiro256star2 ( generator , source )
+
+            ! argument(s) for this <subroutine>
+            class(typ_xoshiro256star2)  , intent(inout) :: generator
+            class(typ_generator64_base) , intent(in)    :: source
+
+        end subroutine copy_state_xoshiro256star2
+
+
+        module subroutine deallocate_state_xoshiro256star2 ( generator )
+
+            ! argument(s) for this <subroutine>
+            class(typ_xoshiro256star2) , intent(inout) :: generator
+
+        end subroutine deallocate_state_xoshiro256star2
+
+
+        module subroutine jump_state_core_xoshiro256star2 ( generator , jump_param )
+
+            ! argument(s) for this <subroutine>
+            class   (typ_xoshiro256star2) , intent(inout) :: generator
+            integer (INT64)               , intent(in)    :: jump_param (:)
+
+        end subroutine jump_state_core_xoshiro256star2
+
+
+        module subroutine jump_state_xoshiro256star2 ( generator )
+
+            ! argument(s) for this <subroutine>
+            class(typ_xoshiro256star2) , intent(inout) :: generator
+
+        end subroutine jump_state_xoshiro256star2
+
+
+        module subroutine jump_state_long_xoshiro256star2 ( generator )
+
+            ! argument(s) for this <subroutine>
+            class(typ_xoshiro256star2) , intent(inout) :: generator
+
+        end subroutine jump_state_long_xoshiro256star2
+
+
+        module subroutine random_number_sclr_int64_xoshiro256star2 ( generator , harvest )
+
+            ! argument(s) for this <subroutine>
+            class   (typ_xoshiro256star2) , intent(inout) :: generator
+            integer (INT64)               , intent(out)   :: harvest
+
+        end subroutine random_number_sclr_int64_xoshiro256star2
+
+
+        module subroutine random_number_sclr_real64_xoshiro256star2 ( generator , harvest )
+
+            ! argument(s) for this <subroutine>
+            class (typ_xoshiro256star2) , intent(inout) :: generator
+            real  (REAL64)              , intent(out)   :: harvest
+
+        end subroutine random_number_sclr_real64_xoshiro256star2
+
+
+        module subroutine set_state_xoshiro256star2 ( generator , state )
+
+            ! argument(s) for this <subroutine>
+            class   (typ_xoshiro256star2) , intent(inout) :: generator
+            integer (INT64)               , intent(in)    :: state(:)
+
+        end subroutine set_state_xoshiro256star2
+
+
+        module subroutine update_state_xoshiro256star2 ( generator )
+
+            ! argument(s) for this <subroutine>
+            class(typ_xoshiro256star2) , intent(inout) :: generator
+
+        end subroutine update_state_xoshiro256star2
 
     end interface
 
