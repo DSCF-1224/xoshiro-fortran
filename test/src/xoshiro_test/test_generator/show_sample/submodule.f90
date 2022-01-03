@@ -20,7 +20,11 @@ submodule (pkg_xoshiro_test : imp_test_generator) imp_show_sample
                 class default                         ; stop
             end select
 
-            print '(I2,1X,I21.20)' , itr , sample
+            call show_table_column ( &!
+                comment = "sample" , &!
+                itr     = itr      , &!
+                value   = sample     &!
+            )
 
         end do
 

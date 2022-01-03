@@ -18,6 +18,9 @@ module pkg_xoshiro
     public :: typ_generator64_base
     public :: typ_xoshiro256plus2
 
+    ! kind: function
+    public :: output_size_state
+
 
     ! <type>s for this <module>
 
@@ -32,6 +35,8 @@ module pkg_xoshiro
         ! contained <procedure>s are below
         contains
 
+        ! kind: function
+        procedure( output_state_base ) , deferred :: output_state
 
         ! kind: subroutine
         procedure( allocate_state_base            ) , deferred :: allocate_state
@@ -43,7 +48,6 @@ module pkg_xoshiro
         procedure( random_number_sclr_int64_base  ) , deferred :: random_number_sclr_int64
         procedure( random_number_sclr_real64_base ) , deferred :: random_number_sclr_real64
         procedure( set_state_base                 ) , deferred :: set_state
-        procedure( show_state_base                ) , deferred :: show_state
         procedure( update_state_base              ) , deferred :: update_state
 
     end type typ_generator64_base
@@ -57,6 +61,8 @@ module pkg_xoshiro
         ! contained <procedure>s are below
         contains
 
+        ! kind: function
+        procedure , public :: output_state => output_state_xoshiro256plus2
 
         ! kind: subroutine
         procedure :: allocate_state            => allocate_state_xoshiro256plus2
@@ -70,7 +76,6 @@ module pkg_xoshiro
         procedure , public :: jump_state      => jump_state_xoshiro256plus2
         procedure , public :: jump_state_long => jump_state_long_xoshiro256plus2
         procedure , public :: set_state       => set_state_xoshiro256plus2
-        procedure , public :: show_state      => show_state_xoshiro256plus2
 
 
         ! kind: interface
@@ -101,6 +106,23 @@ module pkg_xoshiro
 
     end interface rotl
 
+
+    interface
+
+        module pure elemental function output_size_state ( generator , default ) result( size_state )
+
+            ! arguments for this <function>
+            class   (typ_generator64_base) , intent(in) :: generator
+            logical                        , intent(in) :: default
+
+            ! return value of this <function>
+            integer :: size_state
+
+        end function output_size_state
+
+    end interface
+
+
     interface
 
         module pure elemental function transform_to_unit_interval ( x ) result( harvest )
@@ -118,6 +140,18 @@ module pkg_xoshiro
 
     ! for abstract <type> :: typ_generator64_base
     interface
+
+        module pure elemental function output_state_base ( generator , index ) result( state )
+
+            ! arguments for this <function>
+            class   (typ_generator64_base) , intent(in) :: generator
+            integer                        , intent(in) :: index
+
+            ! return value of this <function>
+            integer(INT64) :: state
+
+        end function output_state_base
+
 
         module subroutine allocate_state_base ( generator )
 
@@ -196,14 +230,6 @@ module pkg_xoshiro
         end subroutine set_state_base
 
 
-        module subroutine show_state_base ( generator )
-
-            ! argument(s) for this <subroutine>
-            class(typ_generator64_base) , intent(inout) :: generator
-
-        end subroutine show_state_base
-
-
         module subroutine update_state_base ( generator )
 
             ! argument(s) for this <subroutine>
@@ -216,6 +242,18 @@ module pkg_xoshiro
 
     ! for extended <type> :: typ_xoshiro256plus2
     interface
+
+        module pure elemental function output_state_xoshiro256plus2 ( generator , index ) result( state )
+
+            ! arguments for this <function>
+            class   (typ_xoshiro256plus2) , intent(in) :: generator
+            integer                       , intent(in) :: index
+
+            ! return value of this <function>
+            integer(INT64) :: state
+
+        end function output_state_xoshiro256plus2
+
 
         module subroutine allocate_state_xoshiro256plus2 ( generator )
 
@@ -283,14 +321,6 @@ module pkg_xoshiro
             real  (REAL64)              , intent(out)   :: harvest
 
         end subroutine random_number_sclr_real64_xoshiro256plus2
-
-
-        module subroutine show_state_xoshiro256plus2 ( generator )
-
-            ! argument(s) for this <subroutine>
-            class(typ_xoshiro256plus2) , intent(inout) :: generator
-
-        end subroutine show_state_xoshiro256plus2
 
 
         module subroutine set_state_xoshiro256plus2 ( generator , state )
