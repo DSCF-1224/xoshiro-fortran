@@ -4,6 +4,28 @@
 #include "xoshiro256plusplus.c"
 
 
+void print_value ( const char* const comment , const size_t* const itr , const uint64_t* const value )
+{
+	printf( "|%6s|%2lu|`%16.16lx`|\n" , comment , *itr , *value );
+	return;
+}
+
+
+void print_header3 ( const char* const comment )
+{
+	printf( "\n### %s ###\n\n" , comment );
+	return;
+}
+
+
+void print_table_header ( void )
+{
+	printf( "|%s|%s|%s|\n" , "kind" , "itr" , "value" );
+	printf( "|%s|%s|%s|\n" , ":-"   , "-:"  , ":-:"   );
+	return;
+}
+
+
 void set_engine ( const uint64_t s0 , const uint64_t s1 , const uint64_t s2 , const uint64_t s3 )
 {
 	s[0] = s0;
@@ -16,9 +38,12 @@ void set_engine ( const uint64_t s0 , const uint64_t s1 , const uint64_t s2 , co
 
 void show_next ( const size_t count )
 {
+	const char comment[6] = "sample";
+
 	for (size_t i = 1; i <= count; i++)
 	{
-		printf( "%6s %2lu %20.20lu\n" , "sample" , i , next() );
+		const uint64_t buffer = next();
+		print_value( comment , &i , &buffer );
 	}
 
 	return;
@@ -27,9 +52,11 @@ void show_next ( const size_t count )
 
 void show_state ( void )
 {
+	const char comment[6] = "state ";
+
 	for (size_t i = 0; i < sizeof s / sizeof *s; i++)
 	{
-		printf( "%6s %2lu %20.20lu\n" , "state" , (i + 1) , s[i] );
+		print_value( comment , &i , &s[i] );
 	}
 
 	return;
@@ -47,19 +74,24 @@ void test_rand_engine_unit ( void )
 void test_rand_engine ( const uint64_t s0 , const uint64_t s1 , const uint64_t s2 , const uint64_t s3 )
 {
 	// STEP.01
-	printf                ( "\nseed= %lu %lu %lu %lu\n" , s0 , s1 , s2 , s3 );
+	print_header3         ( "Without the jump sequence" );
 	set_engine            ( s0 , s1 , s2 , s3 );
+	print_table_header    ();
 	test_rand_engine_unit ();
 
 	// STEP.02
-	printf                ( "\n%s\n" , "Used `jump()`" );
+	print_header3         ( "Used `jump()`" );
 	set_engine            ( s0 , s1 , s2 , s3 );
+	print_table_header    ();
+	show_state            ();
 	jump                  ();
 	test_rand_engine_unit ();
 
 	// STEP.03
-	printf                ( "\n%s\n" , "Used `long_jump()`" );
+	print_header3         ( "Used `long_jump()`" );
 	set_engine            ( s0 , s1 , s2 , s3 );
+	print_table_header    ();
+	show_state            ();
 	long_jump             ();
 	test_rand_engine_unit ();
 
@@ -72,9 +104,6 @@ void test_rand_engine ( const uint64_t s0 , const uint64_t s1 , const uint64_t s
 int main (void) {
 
 	test_rand_engine( 0 , 0 , 0 , 1 );
-	test_rand_engine( 0 , 0 , 1 , 0 );
-	test_rand_engine( 0 , 1 , 0 , 0 );
-	test_rand_engine( 1 , 0 , 0 , 0 );
 	return EXIT_SUCCESS;
 
 }
