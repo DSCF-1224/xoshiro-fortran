@@ -1,4 +1,4 @@
-#include "../test_xoshiro256plusplus.h"
+#include "generate_sample.h"
 
 int eval_status_fopen ( const int* const status )
 {

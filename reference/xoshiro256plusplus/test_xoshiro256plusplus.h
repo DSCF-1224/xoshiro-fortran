@@ -1,5 +1,5 @@
-#ifndef TEST_XOSHIRO256PLUSPLUS_H_
-#define TEST_XOSHIRO256PLUSPLUS_H_
+#ifndef TEST_XOSHIRO_256_PLUSPLUS_H_
+#define TEST_XOSHIRO_256_PLUSPLUS_H_
 
 #include <stdint.h>
 #include <stdio.h>
@@ -9,8 +9,6 @@
 
 #define size_state 4
 
-int eval_status_fclose      ( const int* const status );
-int eval_status_fopen       ( const int* const status );
 int test_xoshiro256plusplus ( const uint64_t* const state , const size_t* const size_sample );
 
-#endif /* TEST_XOSHIRO256PLUSPLUS_H_ */
+#endif /* TEST_XOSHIRO_256_PLUSPLUS_H_ */

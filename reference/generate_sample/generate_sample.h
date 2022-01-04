@@ -14,6 +14,8 @@ FILE* file_ptr_without_jump;
 FILE* file_ptr_with_jump;
 FILE* file_ptr_with_long_jump;
 
+int eval_status_fclose  ( const int* const status );
+int eval_status_fopen   ( const int* const status );
 int fclose_save_samples ( void );
 int fopen_save_samples  ( void );
 

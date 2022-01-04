@@ -2,3 +2,4 @@ original/*.c
 xoshiro256plusplus/build**
 xoshiro256plusplus/result**
 xoshiro256starstar/build**
+xoshiro256starstar/result**
