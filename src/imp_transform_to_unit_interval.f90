@@ -1,7 +1,7 @@
 submodule (pkg_xoshiro) imp_transform_to_unit_interval
 
     ! constant(s) for this <submodule>
-    integer(INT64) , parameter :: cnst_ior = shiftl( i= Z'3FF' , shift= 52 )
+    integer(INT64) , parameter :: cnst_ior = shiftl( i= 1023_INT64 , shift= 52 )
 
 
     ! contained <procedure>s, <subroutine>s and <function>s are below
