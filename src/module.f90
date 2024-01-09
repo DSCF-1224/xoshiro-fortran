@@ -59,7 +59,16 @@ module pkg_xoshiro
     end type typ_generator64_base
 
 
-    type , extends(typ_generator64_base) :: typ_xoshiro256plus2
+
+    type , abstract , extends(typ_generator64_base) :: typ_xoshiro256
+
+        contains
+
+    end type typ_xoshiro256
+
+
+
+    type , extends(typ_xoshiro256) :: typ_xoshiro256plus2
 
         ! default accessibility of the component(s) of this <type>
         private
@@ -91,7 +100,8 @@ module pkg_xoshiro
     end type typ_xoshiro256plus2
 
 
-    type , extends(typ_generator64_base) :: typ_xoshiro256star2
+
+    type , extends(typ_xoshiro256) :: typ_xoshiro256star2
 
         ! default accessibility of the component(s) of this <type>
         private
