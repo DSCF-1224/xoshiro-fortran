@@ -309,8 +309,8 @@ module pkg_xoshiro
 
         module subroutine allocate_state_xoshiro256 ( generator )
 
-            ! argument(s) for this <subroutine>
             class(typ_xoshiro256) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
 
         end subroutine allocate_state_xoshiro256
 
@@ -318,8 +318,8 @@ module pkg_xoshiro
 
         module subroutine deallocate_state_xoshiro256 ( generator )
 
-            ! argument(s) for this <subroutine>
             class(typ_xoshiro256) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
 
         end subroutine deallocate_state_xoshiro256
 
