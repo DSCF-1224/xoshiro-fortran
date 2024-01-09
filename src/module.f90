@@ -38,15 +38,22 @@ module pkg_xoshiro
         ! component(s) of this <type>
         integer(INT64) , allocatable :: state(:)
 
+
+
         ! contained <procedure>s are below
         contains
 
-        ! kind: function
-        procedure( output_state_base ) , deferred :: output_state
 
-        ! kind: subroutine
+
+        ! kind: `FUNCTION`
+
+        procedure( output_state_base ) , deferred , public :: output_state
+
+
+
+        ! kind: `SUBROUTINE`
+
         procedure( allocate_state_base            ) , deferred :: allocate_state
-        procedure( copy_state_base                ) , deferred :: copy_state
         procedure( deallocate_state_base          ) , deferred :: deallocate_state
         procedure( jump_state_core_base           ) , deferred :: jump_state_core
         procedure( jump_state_base                ) , deferred :: jump_state
@@ -64,8 +71,22 @@ module pkg_xoshiro
 
         contains
 
+
+
+        ! kind: `FUNCTION`
+
+        procedure , public :: output_state => output_state_xoshiro256
+
+
+
+        ! kind: `SUBROUTINE`
+
+        procedure , pass , private :: copy_state_xoshiro256
+
         procedure :: allocate_state   => allocate_state_xoshiro256
         procedure :: deallocate_state => deallocate_state_xoshiro256
+
+        generic, public :: copy_state => copy_state_xoshiro256
 
     end type typ_xoshiro256
 
@@ -79,16 +100,12 @@ module pkg_xoshiro
         ! contained <procedure>s are below
         contains
 
-        ! kind: function
-        procedure , public :: output_state => output_state_xoshiro256plus2
-
         ! kind: subroutine
         procedure :: jump_state_core           => jump_state_core_xoshiro256plus2
         procedure :: random_number_sclr_int64  => random_number_sclr_int64_xoshiro256plus2
         procedure :: random_number_sclr_real64 => random_number_sclr_real64_xoshiro256plus2
         procedure :: update_state              => update_state_xoshiro256plus2
 
-        procedure , public :: copy_state      => copy_state_xoshiro256plus2
         procedure , public :: jump_state      => jump_state_xoshiro256plus2
         procedure , public :: jump_state_long => jump_state_long_xoshiro256plus2
         procedure , public :: set_state       => set_state_xoshiro256plus2
@@ -110,16 +127,12 @@ module pkg_xoshiro
         ! contained <procedure>s are below
         contains
 
-        ! kind: function
-        procedure , public :: output_state => output_state_xoshiro256star2
-
         ! kind: subroutine
         procedure :: jump_state_core           => jump_state_core_xoshiro256star2
         procedure :: random_number_sclr_int64  => random_number_sclr_int64_xoshiro256star2
         procedure :: random_number_sclr_real64 => random_number_sclr_real64_xoshiro256star2
         procedure :: update_state              => update_state_xoshiro256star2
 
-        procedure , public :: copy_state      => copy_state_xoshiro256star2
         procedure , public :: jump_state      => jump_state_xoshiro256star2
         procedure , public :: jump_state_long => jump_state_long_xoshiro256star2
         procedure , public :: set_state       => set_state_xoshiro256star2
@@ -202,12 +215,14 @@ module pkg_xoshiro
 
         module pure elemental function output_state_base ( generator , index ) result( state )
 
-            ! arguments for this <function>
-            class   (typ_generator64_base) , intent(in) :: generator
-            integer                        , intent(in) :: index
+            class(typ_generator64_base) , intent(in) :: generator
+            !! A dummy argument for this `FUNCTION`
 
-            ! return value of this <function>
+            integer , intent(in) :: index
+            !! A dummy argument for this `FUNCTION`
+
             integer(INT64) :: state
+            !! The return value of this `FUNCTION`
 
         end function output_state_base
 
@@ -219,16 +234,6 @@ module pkg_xoshiro
             !! A dummy argument for this `SUBROUTINE`
 
         end subroutine allocate_state_base
-
-
-
-        module subroutine copy_state_base ( generator , source )
-
-            ! argument(s) for this <subroutine>
-            class(typ_generator64_base) , intent(inout) :: generator
-            class(typ_generator64_base) , intent(in)    :: source
-
-        end subroutine copy_state_base
 
 
 
@@ -307,12 +312,39 @@ module pkg_xoshiro
     ! for `ABSTRACT` & `EXTENDS` `TYPE` :: `typ_xoshiro256`
     interface
 
+        module pure elemental function output_state_xoshiro256 ( generator , index ) result( state )
+
+            class(typ_xoshiro256) , intent(in) :: generator
+            !! A dummy argument for this `FUNCTION`
+
+            integer , intent(in) :: index
+            !! A dummy argument for this `FUNCTION`
+
+            integer(INT64) :: state
+            !! The return value of this `FUNCTION`
+
+        end function output_state_xoshiro256
+
+
+
         module subroutine allocate_state_xoshiro256 ( generator )
 
             class(typ_xoshiro256) , intent(inout) :: generator
             !! A dummy argument for this `SUBROUTINE`
 
         end subroutine allocate_state_xoshiro256
+
+
+
+        module subroutine copy_state_xoshiro256 ( generator , source )
+
+            class(typ_xoshiro256) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            class(typ_xoshiro256) , intent(in) :: source
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine copy_state_xoshiro256
 
 
 
@@ -329,27 +361,6 @@ module pkg_xoshiro
 
     ! for `EXTENDS` `TYPE` :: `typ_xoshiro256plus2`
     interface
-
-        module pure elemental function output_state_xoshiro256plus2 ( generator , index ) result( state )
-
-            ! arguments for this <function>
-            class   (typ_xoshiro256plus2) , intent(in) :: generator
-            integer                       , intent(in) :: index
-
-            ! return value of this <function>
-            integer(INT64) :: state
-
-        end function output_state_xoshiro256plus2
-
-
-        module subroutine copy_state_xoshiro256plus2 ( generator , source )
-
-            ! argument(s) for this <subroutine>
-            class(typ_xoshiro256plus2)  , intent(inout) :: generator
-            class(typ_generator64_base) , intent(in)    :: source
-
-        end subroutine copy_state_xoshiro256plus2
-
 
         module subroutine jump_state_core_xoshiro256plus2 ( generator , jump_param )
 
@@ -415,29 +426,6 @@ module pkg_xoshiro
 
     ! for `EXTENDS` `TYPE` :: `typ_xoshiro256star2`
     interface
-
-        module pure elemental function output_state_xoshiro256star2 ( generator , index ) result( state )
-
-            ! arguments for this <function>
-            class   (typ_xoshiro256star2) , intent(in) :: generator
-            integer                       , intent(in) :: index
-
-            ! return value of this <function>
-            integer(INT64) :: state
-
-        end function output_state_xoshiro256star2
-
-
-
-        module subroutine copy_state_xoshiro256star2 ( generator , source )
-
-            ! argument(s) for this <subroutine>
-            class(typ_xoshiro256star2)  , intent(inout) :: generator
-            class(typ_generator64_base) , intent(in)    :: source
-
-        end subroutine copy_state_xoshiro256star2
-
-
 
         module subroutine jump_state_core_xoshiro256star2 ( generator , jump_param )
 

@@ -5,21 +5,12 @@ submodule (pkg_xoshiro) imp_copy_state
     contains
 
 
-    module procedure copy_state_xoshiro256plus2
 
-        generator % state(:size_state_xoshiro256) = &!
-        source    % state(:size_state_xoshiro256)
-        return
+    module procedure copy_state_xoshiro256
 
-    end procedure copy_state_xoshiro256plus2
+        generator % state(:) = &!
+        source    % state(:)
 
-
-    module procedure copy_state_xoshiro256star2
-
-        generator % state(:size_state_xoshiro256) = &!
-        source    % state(:size_state_xoshiro256)
-        return
-
-    end procedure copy_state_xoshiro256star2
+    end procedure copy_state_xoshiro256
 
 end submodule imp_copy_state
