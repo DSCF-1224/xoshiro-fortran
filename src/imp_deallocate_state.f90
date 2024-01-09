@@ -1,28 +1,17 @@
 submodule (pkg_xoshiro) imp_deallocate_state
 
-    ! contained <procedure>s, <subroutine>s and <function>s are below
+    implicit none
+
     contains
 
 
-    module procedure deallocate_state_xoshiro256plus2
+
+    module procedure deallocate_state_xoshiro256
 
         if ( allocated( generator%state ) ) then
             deallocate( generator%state )
         end if
 
-        return
-
-    end procedure deallocate_state_xoshiro256plus2
-
-
-    module procedure deallocate_state_xoshiro256star2
-
-        if ( allocated( generator%state ) ) then
-            deallocate( generator%state )
-        end if
-
-        return
-
-    end procedure deallocate_state_xoshiro256star2
+    end procedure deallocate_state_xoshiro256
 
 end submodule imp_deallocate_state
