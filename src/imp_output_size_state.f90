@@ -1,6 +1,7 @@
 submodule (pkg_xoshiro) imp_output_size_state
 
-    ! contained <procedure>s, <subroutine>s and <function>s are below
+    implicit none
+
     contains
 
 
@@ -9,8 +10,8 @@ submodule (pkg_xoshiro) imp_output_size_state
         if ( default ) then
 
             select type ( generator )
-                type is       ( typ_xoshiro256plus2 ) ; size_state = size_state_xoshiro256plus2
-                type is       ( typ_xoshiro256star2 ) ; size_state = size_state_xoshiro256star2
+                type is       ( typ_xoshiro256plus2 ) ; size_state = size_state_xoshiro256
+                type is       ( typ_xoshiro256star2 ) ; size_state = size_state_xoshiro256
                 class default                         ; size_state = 0
             end select
 

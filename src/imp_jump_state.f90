@@ -1,7 +1,10 @@
 submodule (pkg_xoshiro) imp_jump_state
 
-    ! constant(s) for this <submodule>
-    integer(INT64) , parameter :: jump_param_xoshiro256plus2( 4 ) = &!
+    implicit none
+
+
+
+    integer(INT64) , parameter :: jump_param_xoshiro256plus2(size_state_xoshiro256) = &!
         [&!
             +1733541517147835066_int64 , &!
             -3051731464161248980_int64 , &!
@@ -9,10 +12,10 @@ submodule (pkg_xoshiro) imp_jump_state
             +4155657270789760540_int64   &!
         ]
 
-    integer(INT64) , parameter :: jump_param_xoshiro256star2( size_state_xoshiro256star2 ) = jump_param_xoshiro256plus2(:)
+    integer(INT64) , parameter :: jump_param_xoshiro256star2(size_state_xoshiro256) = jump_param_xoshiro256plus2(:)
 
 
-    ! contained <procedure>s, <subroutine>s and <function>s are below
+
     contains
 
 

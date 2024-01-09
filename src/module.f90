@@ -23,6 +23,11 @@ module pkg_xoshiro
     public :: output_size_state
 
 
+
+    ! constant(s) for this <module>
+    integer , parameter :: size_state_xoshiro256 = 4
+
+
     ! <type>s for this <module>
 
     type , abstract :: typ_generator64_base
@@ -116,11 +121,6 @@ module pkg_xoshiro
         generic , public :: random_number => random_number_sclr_real64
 
     end type typ_xoshiro256star2
-
-
-    ! constant(s) for this <module>
-    integer , parameter :: size_state_xoshiro256plus2 = 4
-    integer , parameter :: size_state_xoshiro256star2 = 4
 
 
     ! <interface>s for this <module>

@@ -1,13 +1,14 @@
 submodule (pkg_xoshiro) imp_allocate_state
 
-    ! contained <procedure>s, <subroutine>s and <function>s are below
+    implicit none
+
     contains
 
 
     module procedure allocate_state_xoshiro256plus2
 
         call generator%deallocate_state
-        allocate( generator%state( size_state_xoshiro256plus2 ) )
+        allocate( generator%state(size_state_xoshiro256) )
         return
 
     end procedure allocate_state_xoshiro256plus2
@@ -16,7 +17,7 @@ submodule (pkg_xoshiro) imp_allocate_state
     module procedure allocate_state_xoshiro256star2
 
         call generator%deallocate_state
-        allocate( generator%state( size_state_xoshiro256star2 ) )
+        allocate( generator%state(size_state_xoshiro256) )
         return
 
     end procedure allocate_state_xoshiro256star2
