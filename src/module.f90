@@ -88,6 +88,7 @@ module pkg_xoshiro
         procedure :: jump_state_core  => jump_state_core_xoshiro256
 
         procedure , public :: jump_state      => jump_state_xoshiro256
+        procedure , public :: jump_state_long => jump_state_long_xoshiro256
 
         generic, public :: copy_state => copy_state_xoshiro256
 
@@ -108,7 +109,6 @@ module pkg_xoshiro
         procedure :: random_number_sclr_real64 => random_number_sclr_real64_xoshiro256plus2
         procedure :: update_state              => update_state_xoshiro256plus2
 
-        procedure , public :: jump_state_long => jump_state_long_xoshiro256plus2
         procedure , public :: set_state       => set_state_xoshiro256plus2
 
 
@@ -133,7 +133,6 @@ module pkg_xoshiro
         procedure :: random_number_sclr_real64 => random_number_sclr_real64_xoshiro256star2
         procedure :: update_state              => update_state_xoshiro256star2
 
-        procedure , public :: jump_state_long => jump_state_long_xoshiro256star2
         procedure , public :: set_state       => set_state_xoshiro256star2
 
 
@@ -375,20 +374,21 @@ module pkg_xoshiro
 
         end subroutine jump_state_core_xoshiro256
 
+
+
+        module subroutine jump_state_long_xoshiro256 ( generator )
+
+            class(typ_xoshiro256) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine jump_state_long_xoshiro256
+
     end interface
 
 
 
     ! for `EXTENDS` `TYPE` :: `typ_xoshiro256plus2`
     interface
-
-        module subroutine jump_state_long_xoshiro256plus2 ( generator )
-
-            ! argument(s) for this <subroutine>
-            class(typ_xoshiro256plus2) , intent(inout) :: generator
-
-        end subroutine jump_state_long_xoshiro256plus2
-
 
         module subroutine random_number_sclr_int64_xoshiro256plus2 ( generator , harvest )
 
@@ -429,14 +429,6 @@ module pkg_xoshiro
 
     ! for `EXTENDS` `TYPE` :: `typ_xoshiro256star2`
     interface
-
-        module subroutine jump_state_long_xoshiro256star2 ( generator )
-
-            ! argument(s) for this <subroutine>
-            class(typ_xoshiro256star2) , intent(inout) :: generator
-
-        end subroutine jump_state_long_xoshiro256star2
-
 
         module subroutine random_number_sclr_int64_xoshiro256star2 ( generator , harvest )
 
