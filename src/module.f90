@@ -266,11 +266,14 @@ module pkg_xoshiro
         end subroutine jump_state_long_base
 
 
+
         module subroutine random_number_scalar_int64_base ( generator , harvest )
 
-            ! argument(s) for this <subroutine>
-            class   (typ_generator64_base) , intent(inout) :: generator
-            integer (INT64)                , intent(out)   :: harvest
+            class(typ_generator64_base) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            integer(INT64) , intent(out) :: harvest
+            !! A dummy argument for this `SUBROUTINE`
 
         end subroutine random_number_scalar_int64_base
 
