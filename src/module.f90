@@ -409,9 +409,11 @@ module pkg_xoshiro
 
         module subroutine random_number_scalar_int64_xoshiro256plus2 ( generator , harvest )
 
-            ! argument(s) for this <subroutine>
-            class   (typ_xoshiro256plus2) , intent(inout) :: generator
-            integer (INT64)               , intent(out)   :: harvest
+            class(typ_xoshiro256plus2) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            integer(INT64) , intent(out) :: harvest
+            !! A dummy argument for this `SUBROUTINE`
 
         end subroutine random_number_scalar_int64_xoshiro256plus2
 
@@ -432,9 +434,11 @@ module pkg_xoshiro
 
         module subroutine random_number_scalar_int64_xoshiro256star2 ( generator , harvest )
 
-            ! argument(s) for this <subroutine>
-            class   (typ_xoshiro256star2) , intent(inout) :: generator
-            integer (INT64)               , intent(out)   :: harvest
+            class(typ_xoshiro256star2) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            integer(INT64) , intent(out) :: harvest
+            !! A dummy argument for this `SUBROUTINE`
 
         end subroutine random_number_scalar_int64_xoshiro256star2
 
