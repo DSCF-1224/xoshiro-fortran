@@ -6,7 +6,7 @@ submodule (pkg_xoshiro) imp_rotl
 
     module procedure rotl64
 
-        rotl = ior( i= shiftl( i = i , shift= shift ) , j= shiftr( i= i , shift= 64 - shift ) )
+        rotl64 = ior( i= shiftl( i = i , shift= shift ) , j= shiftr( i= i , shift= 64 - shift ) )
 
     end procedure rotl64
 

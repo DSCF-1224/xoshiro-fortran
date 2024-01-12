@@ -139,18 +139,19 @@ module pkg_xoshiro
     end type typ_xoshiro256star2
 
 
-    ! <interface>s for this <module>
 
     interface rotl
 
-        module pure elemental function rotl64 ( i , shift ) result(rotl)
+        module pure elemental function rotl64 ( i , shift )
 
-            ! argument(s) for this <function>
-            integer (INT64) , intent(in) :: i
-            integer         , intent(in) :: shift
+            integer(INT64) , intent(in) :: i
+            !! A dummy argument for this `FUNCTION`
 
-            ! return value of this <function>
-            integer(INT64) :: rotl
+            integer , intent(in) :: shift
+            !! A dummy argument for this `FUNCTION`
+
+            integer(INT64) :: rotl64
+            !! The return value of this `FUNCTION`
 
         end function rotl64
 
