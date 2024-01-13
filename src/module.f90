@@ -32,15 +32,15 @@ module pkg_xoshiro
 
     type , abstract :: typ_generator64_base
 
-        ! default accessibility of the component(s) of this <type>
         private
 
-        ! component(s) of this <type>
+
+
         integer(INT64) , allocatable :: state(:)
+        !! A field of this `TYPE`
 
 
 
-        ! contained <procedure>s are below
         contains
 
 
@@ -53,15 +53,18 @@ module pkg_xoshiro
 
         ! kind: `SUBROUTINE`
 
+        procedure , pass , private :: random_number_scalar_real64
+
         procedure( allocate_state_base             ) , deferred :: allocate_state
         procedure( deallocate_state_base           ) , deferred :: deallocate_state
         procedure( jump_state_core_base            ) , deferred :: jump_state_core
         procedure( jump_state_base                 ) , deferred :: jump_state
         procedure( jump_state_long_base            ) , deferred :: jump_state_long
         procedure( random_number_scalar_int64_base ) , deferred :: random_number_scalar_int64
-        procedure( random_number_sclr_real64_base  ) , deferred :: random_number_sclr_real64
         procedure( set_state_base                  ) , deferred :: set_state
         procedure( update_state_base               ) , deferred :: update_state
+
+        generic , public :: random_number => random_number_scalar_real64 
 
     end type typ_generator64_base
 
@@ -100,20 +103,17 @@ module pkg_xoshiro
 
     type , extends(typ_xoshiro256) :: typ_xoshiro256plus2
 
-        ! default accessibility of the component(s) of this <type>
         private
 
-        ! contained <procedure>s are below
         contains
 
-        ! kind: subroutine
+
+
+        ! kind: `SUBROUTINE`
+
         procedure :: random_number_scalar_int64 => random_number_scalar_int64_xoshiro256plus2
-        procedure :: random_number_sclr_real64  => random_number_sclr_real64_xoshiro256plus2
 
-
-        ! kind: interface
         generic , public :: random_number => random_number_scalar_int64
-        generic , public :: random_number => random_number_sclr_real64
 
     end type typ_xoshiro256plus2
 
@@ -121,20 +121,17 @@ module pkg_xoshiro
 
     type , extends(typ_xoshiro256) :: typ_xoshiro256star2
 
-        ! default accessibility of the component(s) of this <type>
         private
 
-        ! contained <procedure>s are below
         contains
 
-        ! kind: subroutine
+
+
+        ! kind: `SUBROUTINE`
+
         procedure :: random_number_scalar_int64 => random_number_scalar_int64_xoshiro256star2
-        procedure :: random_number_sclr_real64  => random_number_sclr_real64_xoshiro256star2
 
-
-        ! kind: interface
         generic , public :: random_number => random_number_scalar_int64
-        generic , public :: random_number => random_number_sclr_real64
 
     end type typ_xoshiro256star2
 
@@ -278,13 +275,17 @@ module pkg_xoshiro
         end subroutine random_number_scalar_int64_base
 
 
-        module subroutine random_number_sclr_real64_base ( generator , harvest )
 
-            ! argument(s) for this <subroutine>
-            class (typ_generator64_base) , intent(inout) :: generator
-            real  (REAL64)               , intent(out)   :: harvest
+        module subroutine random_number_scalar_real64 ( generator , harvest )
 
-        end subroutine random_number_sclr_real64_base
+            class(typ_generator64_base) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            real(REAL64) , intent(out) :: harvest
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine random_number_scalar_real64
+
 
 
         module subroutine set_state_base ( generator , state )
@@ -421,16 +422,8 @@ module pkg_xoshiro
 
         end subroutine random_number_scalar_int64_xoshiro256plus2
 
-
-        module subroutine random_number_sclr_real64_xoshiro256plus2 ( generator , harvest )
-
-            ! argument(s) for this <subroutine>
-            class (typ_xoshiro256plus2) , intent(inout) :: generator
-            real  (REAL64)              , intent(out)   :: harvest
-
-        end subroutine random_number_sclr_real64_xoshiro256plus2
-
     end interface
+
 
 
     ! for `EXTENDS` `TYPE` :: `typ_xoshiro256star2`
@@ -445,15 +438,6 @@ module pkg_xoshiro
             !! A dummy argument for this `SUBROUTINE`
 
         end subroutine random_number_scalar_int64_xoshiro256star2
-
-
-        module subroutine random_number_sclr_real64_xoshiro256star2 ( generator , harvest )
-
-            ! argument(s) for this <subroutine>
-            class (typ_xoshiro256star2) , intent(inout) :: generator
-            real  (REAL64)              , intent(out)   :: harvest
-
-        end subroutine random_number_sclr_real64_xoshiro256star2
 
     end interface
 
