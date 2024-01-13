@@ -155,6 +155,7 @@ module pkg_xoshiro
     end interface rotl
 
 
+
     interface
 
         module pure elemental function output_size_state ( generator , default ) result( size_state )
@@ -171,19 +172,21 @@ module pkg_xoshiro
     end interface
 
 
+
     interface
 
         module pure elemental function transform_to_unit_interval ( x ) result( harvest )
 
-            ! argument(s) for this <function>
             integer(INT64) , intent(in) :: x
+            !! A dummy argument for this `FUNCTION`
 
-            ! return value of this <function>
             real(REAL64) :: harvest
+            !! The return value of this `FUNCTION`
 
         end function transform_to_unit_interval
 
     end interface
+
 
 
     interface copy_array
