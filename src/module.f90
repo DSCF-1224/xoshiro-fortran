@@ -37,18 +37,14 @@ module pkg_xoshiro
 
 
 
-        integer(INT64) , allocatable :: state(:)
-        !! A field of this `TYPE`
-
-
-
         contains
 
 
 
         ! kind: `FUNCTION`
 
-        procedure( output_state_base ) , deferred , public :: output_state
+        procedure( output_state_base      ) , deferred ,   pass , public :: output_state
+        procedure( output_state_size_base ) , deferred , nopass , public :: output_state_size
 
 
 
@@ -56,8 +52,6 @@ module pkg_xoshiro
 
         procedure , pass , private :: random_number_scalar_real64
 
-        procedure( allocate_state_base             ) , deferred :: allocate_state
-        procedure( deallocate_state_base           ) , deferred :: deallocate_state
         procedure( jump_state_core_base            ) , deferred :: jump_state_core
         procedure( jump_state_base                 ) , deferred :: jump_state
         procedure( jump_state_long_base            ) , deferred :: jump_state_long
@@ -73,13 +67,19 @@ module pkg_xoshiro
 
     type , abstract , extends(typ_generator64_base) :: typ_xoshiro256
 
+        integer(INT64) , private , dimension(size_state_xoshiro256) :: state
+        !! A field of this `TYPE`
+
+
+
         contains
 
 
 
         ! kind: `FUNCTION`
 
-        procedure , public :: output_state => output_state_xoshiro256
+        procedure , public ,   pass :: output_state      => output_state_xoshiro256
+        procedure , public , nopass :: output_state_size => output_state_size_xoshiro256
 
 
 
@@ -87,10 +87,8 @@ module pkg_xoshiro
 
         procedure , pass , private :: copy_state_xoshiro256
 
-        procedure :: allocate_state   => allocate_state_xoshiro256
-        procedure :: deallocate_state => deallocate_state_xoshiro256
-        procedure :: jump_state_core  => jump_state_core_xoshiro256
-        procedure :: update_state     => update_state_xoshiro256
+        procedure :: jump_state_core => jump_state_core_xoshiro256
+        procedure :: update_state    => update_state_xoshiro256
 
         procedure , public :: jump_state      => jump_state_xoshiro256
         procedure , public :: jump_state_long => jump_state_long_xoshiro256
@@ -232,21 +230,12 @@ module pkg_xoshiro
 
 
 
-        module subroutine allocate_state_base ( generator )
+        module pure elemental function output_state_size_base () result( state_size )
 
-            class(typ_generator64_base) , intent(inout) :: generator
-            !! A dummy argument for this `SUBROUTINE`
+            integer :: state_size
+            !! The return value of this `FUNCTION`
 
-        end subroutine allocate_state_base
-
-
-
-        module subroutine deallocate_state_base ( generator )
-
-            class(typ_generator64_base) , intent(inout) :: generator
-            !! A dummy argument for this `SUBROUTINE`
-
-        end subroutine deallocate_state_base
+        end function output_state_size_base
 
 
 
@@ -261,12 +250,14 @@ module pkg_xoshiro
         end subroutine jump_state_core_base
 
 
+
         module subroutine jump_state_base ( generator )
 
             class(typ_generator64_base) , intent(inout) :: generator
             !! A dummy argument for this `SUBROUTINE`
 
         end subroutine jump_state_base
+
 
 
         module subroutine jump_state_long_base ( generator )
@@ -342,12 +333,12 @@ module pkg_xoshiro
 
 
 
-        module subroutine allocate_state_xoshiro256 ( generator )
+        module pure elemental function output_state_size_xoshiro256 () result( state_size )
 
-            class(typ_xoshiro256) , intent(inout) :: generator
-            !! A dummy argument for this `SUBROUTINE`
+            integer :: state_size
+            !! The return value of this `FUNCTION`
 
-        end subroutine allocate_state_xoshiro256
+        end function output_state_size_xoshiro256
 
 
 
@@ -360,15 +351,6 @@ module pkg_xoshiro
             !! A dummy argument for this `SUBROUTINE`
 
         end subroutine copy_state_xoshiro256
-
-
-
-        module subroutine deallocate_state_xoshiro256 ( generator )
-
-            class(typ_xoshiro256) , intent(inout) :: generator
-            !! A dummy argument for this `SUBROUTINE`
-
-        end subroutine deallocate_state_xoshiro256
 
 
 
