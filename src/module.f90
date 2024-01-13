@@ -1,15 +1,13 @@
 module pkg_xoshiro
 
-    ! <module>s to import
     use , intrinsic :: iso_fortran_env , only : INT64
     use , intrinsic :: iso_fortran_env , only : REAL64
 
 
-    ! require all variables to be explicitly declared
+
     implicit none
 
 
-    ! accessibility of the <subroutine>s and <function>s in this <module>
 
     ! default accessibility
     private
@@ -24,11 +22,14 @@ module pkg_xoshiro
 
 
 
-    ! constant(s) for this <module>
     integer , parameter :: size_state_xoshiro256 = 4
+    !! A `PARAMETER` for this `MODULE`
+    !! state array size for
+    !! - xoshiro256+`
+    !! - xoshiro256++`
+    !! - xoshiro256**`
 
 
-    ! <type>s for this <module>
 
     type , abstract :: typ_generator64_base
 
@@ -160,12 +161,14 @@ module pkg_xoshiro
 
         module pure elemental function output_size_state ( generator , default ) result( size_state )
 
-            ! arguments for this <function>
-            class   (typ_generator64_base) , intent(in) :: generator
-            logical                        , intent(in) :: default
+            class(typ_generator64_base) , intent(in) :: generator
+            !! A dummy argument for this `FUNCTION`
 
-            ! return value of this <function>
+            logical , intent(in) :: default
+            !! A dummy argument for this `FUNCTION`
+
             integer :: size_state
+            !! The return value of this `FUNCTION`
 
         end function output_size_state
 
@@ -193,11 +196,17 @@ module pkg_xoshiro
 
         module subroutine copy_array_int64 ( size_dst , size_src , val_dst , val_src )
 
-            ! arguments for this <subroutine>
-            integer         , intent(in)    :: size_dst
-            integer         , intent(in)    :: size_src
-            integer (INT64) , intent(inout) :: val_dst  (:)
-            integer (INT64) , intent(in)    :: val_src  (:)
+            integer , intent(in) :: size_dst
+            !! A dummy argument for `SUBROUTINE`
+
+            integer , intent(in) :: size_src
+            !! A dummy argument for `SUBROUTINE`
+
+            integer(INT64) , dimension(:) , intent(inout) :: val_dst
+            !! A dummy argument for `SUBROUTINE`
+
+            integer(INT64) , dimension(:) , intent(in) :: val_src
+            !! A dummy argument for `SUBROUTINE`
 
         end subroutine copy_array_int64
 
@@ -243,25 +252,27 @@ module pkg_xoshiro
 
         module subroutine jump_state_core_base ( generator , jump_param )
 
-            ! argument(s) for this <subroutine>
-            class   (typ_generator64_base) , intent(inout) :: generator
-            integer (INT64)                , intent(in)    :: jump_param (:)
+            class(typ_generator64_base) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            integer(INT64) , dimension(:) , intent(in) :: jump_param
+            !! A dummy argument for this `SUBROUTINE`
 
         end subroutine jump_state_core_base
 
 
         module subroutine jump_state_base ( generator )
 
-            ! argument(s) for this <subroutine>
             class(typ_generator64_base) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
 
         end subroutine jump_state_base
 
 
         module subroutine jump_state_long_base ( generator )
 
-            ! argument(s) for this <subroutine>
             class(typ_generator64_base) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
 
         end subroutine jump_state_long_base
 
@@ -293,17 +304,19 @@ module pkg_xoshiro
 
         module subroutine set_state_base ( generator , state )
 
-            ! argument(s) for this <subroutine>
-            class   (typ_generator64_base) , intent(inout) :: generator
-            integer (INT64)                , intent(in)    :: state(:)
+            class(typ_generator64_base) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            integer(INT64) , intent(in) :: state(:)
+            !! A dummy argument for this `SUBROUTINE`
 
         end subroutine set_state_base
 
 
         module subroutine update_state_base ( generator )
 
-            ! argument(s) for this <subroutine>
             class(typ_generator64_base) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
 
         end subroutine update_state_base
 
