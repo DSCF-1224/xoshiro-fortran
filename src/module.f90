@@ -1,15 +1,13 @@
 module pkg_xoshiro
 
-    ! <module>s to import
     use , intrinsic :: iso_fortran_env , only : INT64
     use , intrinsic :: iso_fortran_env , only : REAL64
 
 
-    ! require all variables to be explicitly declared
+
     implicit none
 
 
-    ! accessibility of the <subroutine>s and <function>s in this <module>
 
     ! default accessibility
     private
@@ -23,472 +21,421 @@ module pkg_xoshiro
     public :: output_size_state
 
 
-    ! <type>s for this <module>
+
+    integer , parameter :: size_state_xoshiro256 = 4
+    !! A `PARAMETER` for this `MODULE`
+    !! state array size for
+    !! - xoshiro256+`
+    !! - xoshiro256++`
+    !! - xoshiro256**`
+
+
 
     type , abstract :: typ_generator64_base
 
-        ! default accessibility of the component(s) of this <type>
         private
 
-        ! component(s) of this <type>
-        integer(INT64) , allocatable :: state(:)
 
-        ! contained <procedure>s are below
+
         contains
 
-        ! kind: function
-        procedure( output_state_base ) , deferred :: output_state
 
-        ! kind: subroutine
-        procedure( allocate_state_base            ) , deferred :: allocate_state
-        procedure( copy_state_base                ) , deferred :: copy_state
-        procedure( deallocate_state_base          ) , deferred :: deallocate_state
-        procedure( jump_state_core_base           ) , deferred :: jump_state_core
-        procedure( jump_state_base                ) , deferred :: jump_state
-        procedure( jump_state_long_base           ) , deferred :: jump_state_long
-        procedure( random_number_sclr_int64_base  ) , deferred :: random_number_sclr_int64
-        procedure( random_number_sclr_real64_base ) , deferred :: random_number_sclr_real64
-        procedure( set_state_base                 ) , deferred :: set_state
-        procedure( update_state_base              ) , deferred :: update_state
+
+        ! kind: `FUNCTION`
+
+        procedure( output_state_base      ) , deferred ,   pass , public :: output_state
+        procedure( output_state_size_base ) , deferred , nopass , public :: output_state_size
+
+
+
+        ! kind: `SUBROUTINE`
+
+        procedure , pass , private :: random_number_scalar_real64
+
+        procedure( jump_state_core_base            ) , deferred :: jump_state_core
+        procedure( jump_state_base                 ) , deferred :: jump_state
+        procedure( jump_state_long_base            ) , deferred :: jump_state_long
+        procedure( random_number_scalar_int64_base ) , deferred :: random_number_scalar_int64
+        procedure( set_state_base                  ) , deferred :: set_state
+        procedure( update_state_base               ) , deferred :: update_state
+
+        generic , public :: random_number => random_number_scalar_real64 
 
     end type typ_generator64_base
 
 
-    type , extends(typ_generator64_base) :: typ_xoshiro256plus2
 
-        ! default accessibility of the component(s) of this <type>
-        private
+    type , abstract , extends(typ_generator64_base) :: typ_xoshiro256
 
-        ! contained <procedure>s are below
+        integer(INT64) , private , dimension(size_state_xoshiro256) :: state
+        !! A field of this `TYPE`
+
+
+
         contains
 
-        ! kind: function
-        procedure , public :: output_state => output_state_xoshiro256plus2
-
-        ! kind: subroutine
-        procedure :: allocate_state            => allocate_state_xoshiro256plus2
-        procedure :: deallocate_state          => deallocate_state_xoshiro256plus2
-        procedure :: jump_state_core           => jump_state_core_xoshiro256plus2
-        procedure :: random_number_sclr_int64  => random_number_sclr_int64_xoshiro256plus2
-        procedure :: random_number_sclr_real64 => random_number_sclr_real64_xoshiro256plus2
-        procedure :: update_state              => update_state_xoshiro256plus2
-
-        procedure , public :: copy_state      => copy_state_xoshiro256plus2
-        procedure , public :: jump_state      => jump_state_xoshiro256plus2
-        procedure , public :: jump_state_long => jump_state_long_xoshiro256plus2
-        procedure , public :: set_state       => set_state_xoshiro256plus2
 
 
-        ! kind: interface
-        generic , public :: random_number => random_number_sclr_int64
-        generic , public :: random_number => random_number_sclr_real64
+        ! kind: `FUNCTION`
+
+        procedure , public ,   pass :: output_state      => output_state_xoshiro256
+        procedure , public , nopass :: output_state_size => output_state_size_xoshiro256
+
+
+
+        ! kind: `SUBROUTINE`
+
+        procedure , pass , private :: copy_state_xoshiro256
+
+        procedure :: jump_state_core => jump_state_core_xoshiro256
+        procedure :: update_state    => update_state_xoshiro256
+
+        procedure , public :: jump_state      => jump_state_xoshiro256
+        procedure , public :: jump_state_long => jump_state_long_xoshiro256
+        procedure , public :: set_state       => set_state_xoshiro256
+
+        generic, public :: copy_state => copy_state_xoshiro256
+
+    end type typ_xoshiro256
+
+
+
+    type , extends(typ_xoshiro256) :: typ_xoshiro256plus2
+
+        private
+
+        contains
+
+
+
+        ! kind: `SUBROUTINE`
+
+        procedure :: random_number_scalar_int64 => random_number_scalar_int64_xoshiro256plus2
+
+        generic , public :: random_number => random_number_scalar_int64
 
     end type typ_xoshiro256plus2
 
 
-    type , extends(typ_generator64_base) :: typ_xoshiro256star2
 
-        ! default accessibility of the component(s) of this <type>
+    type , extends(typ_xoshiro256) :: typ_xoshiro256star2
+
         private
 
-        ! contained <procedure>s are below
         contains
 
-        ! kind: function
-        procedure , public :: output_state => output_state_xoshiro256star2
-
-        ! kind: subroutine
-        procedure :: allocate_state            => allocate_state_xoshiro256star2
-        procedure :: deallocate_state          => deallocate_state_xoshiro256star2
-        procedure :: jump_state_core           => jump_state_core_xoshiro256star2
-        procedure :: random_number_sclr_int64  => random_number_sclr_int64_xoshiro256star2
-        procedure :: random_number_sclr_real64 => random_number_sclr_real64_xoshiro256star2
-        procedure :: update_state              => update_state_xoshiro256star2
-
-        procedure , public :: copy_state      => copy_state_xoshiro256star2
-        procedure , public :: jump_state      => jump_state_xoshiro256star2
-        procedure , public :: jump_state_long => jump_state_long_xoshiro256star2
-        procedure , public :: set_state       => set_state_xoshiro256star2
 
 
-        ! kind: interface
-        generic , public :: random_number => random_number_sclr_int64
-        generic , public :: random_number => random_number_sclr_real64
+        ! kind: `SUBROUTINE`
+
+        procedure :: random_number_scalar_int64 => random_number_scalar_int64_xoshiro256star2
+
+        generic , public :: random_number => random_number_scalar_int64
 
     end type typ_xoshiro256star2
 
 
-    ! constant(s) for this <module>
-    integer , parameter :: size_state_xoshiro256plus2 = 4
-    integer , parameter :: size_state_xoshiro256star2 = 4
-
-
-    ! <interface>s for this <module>
 
     interface rotl
 
-        module pure elemental function rotl64 ( i , shift ) result(rotl)
+        module pure elemental function rotl64 ( i , shift )
 
-            ! argument(s) for this <function>
-            integer (INT64) , intent(in) :: i
-            integer         , intent(in) :: shift
+            integer(INT64) , intent(in) :: i
+            !! A dummy argument for this `FUNCTION`
 
-            ! return value of this <function>
-            integer(INT64) :: rotl
+            integer , intent(in) :: shift
+            !! A dummy argument for this `FUNCTION`
+
+            integer(INT64) :: rotl64
+            !! The return value of this `FUNCTION`
 
         end function rotl64
 
     end interface rotl
 
 
+
     interface
 
         module pure elemental function output_size_state ( generator , default ) result( size_state )
 
-            ! arguments for this <function>
-            class   (typ_generator64_base) , intent(in) :: generator
-            logical                        , intent(in) :: default
+            class(typ_generator64_base) , intent(in) :: generator
+            !! A dummy argument for this `FUNCTION`
 
-            ! return value of this <function>
+            logical , intent(in) :: default
+            !! A dummy argument for this `FUNCTION`
+
             integer :: size_state
+            !! The return value of this `FUNCTION`
 
         end function output_size_state
 
     end interface
 
 
+
     interface
 
         module pure elemental function transform_to_unit_interval ( x ) result( harvest )
 
-            ! argument(s) for this <function>
             integer(INT64) , intent(in) :: x
+            !! A dummy argument for this `FUNCTION`
 
-            ! return value of this <function>
             real(REAL64) :: harvest
+            !! The return value of this `FUNCTION`
 
         end function transform_to_unit_interval
 
     end interface
 
 
+
     interface copy_array
 
         module subroutine copy_array_int64 ( size_dst , size_src , val_dst , val_src )
 
-            ! arguments for this <subroutine>
-            integer         , intent(in)    :: size_dst
-            integer         , intent(in)    :: size_src
-            integer (INT64) , intent(inout) :: val_dst  (:)
-            integer (INT64) , intent(in)    :: val_src  (:)
+            integer , intent(in) :: size_dst
+            !! A dummy argument for `SUBROUTINE`
+
+            integer , intent(in) :: size_src
+            !! A dummy argument for `SUBROUTINE`
+
+            integer(INT64) , dimension(:) , intent(inout) :: val_dst
+            !! A dummy argument for `SUBROUTINE`
+
+            integer(INT64) , dimension(:) , intent(in) :: val_src
+            !! A dummy argument for `SUBROUTINE`
 
         end subroutine copy_array_int64
 
     end interface copy_array
 
 
-    ! for abstract <type> :: typ_generator64_base
+
+    ! for `ABSTRACT` `TYPE` :: `typ_generator64_base`
     interface
 
         module pure elemental function output_state_base ( generator , index ) result( state )
 
-            ! arguments for this <function>
-            class   (typ_generator64_base) , intent(in) :: generator
-            integer                        , intent(in) :: index
+            class(typ_generator64_base) , intent(in) :: generator
+            !! A dummy argument for this `FUNCTION`
 
-            ! return value of this <function>
+            integer , intent(in) :: index
+            !! A dummy argument for this `FUNCTION`
+
             integer(INT64) :: state
+            !! The return value of this `FUNCTION`
 
         end function output_state_base
 
 
-        module subroutine allocate_state_base ( generator )
 
-            ! argument(s) for this <subroutine>
-            class(typ_generator64_base) , intent(inout) :: generator
+        module pure elemental function output_state_size_base () result( state_size )
 
-        end subroutine allocate_state_base
+            integer :: state_size
+            !! The return value of this `FUNCTION`
 
+        end function output_state_size_base
 
-        module subroutine copy_state_base ( generator , source )
-
-            ! argument(s) for this <subroutine>
-            class(typ_generator64_base) , intent(inout) :: generator
-            class(typ_generator64_base) , intent(in)    :: source
-
-        end subroutine copy_state_base
-
-
-        module subroutine deallocate_state_base ( generator )
-
-            ! argument(s) for this <subroutine>
-            class(typ_generator64_base) , intent(inout) :: generator
-
-        end subroutine deallocate_state_base
 
 
         module subroutine jump_state_core_base ( generator , jump_param )
 
-            ! argument(s) for this <subroutine>
-            class   (typ_generator64_base) , intent(inout) :: generator
-            integer (INT64)                , intent(in)    :: jump_param (:)
+            class(typ_generator64_base) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            integer(INT64) , dimension(:) , intent(in) :: jump_param
+            !! A dummy argument for this `SUBROUTINE`
 
         end subroutine jump_state_core_base
 
 
+
         module subroutine jump_state_base ( generator )
 
-            ! argument(s) for this <subroutine>
             class(typ_generator64_base) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
 
         end subroutine jump_state_base
 
 
+
         module subroutine jump_state_long_base ( generator )
 
-            ! argument(s) for this <subroutine>
             class(typ_generator64_base) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
 
         end subroutine jump_state_long_base
 
 
-        module subroutine random_number_sclr_int64_base ( generator , harvest )
 
-            ! argument(s) for this <subroutine>
-            class   (typ_generator64_base) , intent(inout) :: generator
-            integer (INT64)                , intent(out)   :: harvest
+        module subroutine random_number_scalar_int64_base ( generator , harvest )
 
-        end subroutine random_number_sclr_int64_base
+            class(typ_generator64_base) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            integer(INT64) , intent(out) :: harvest
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine random_number_scalar_int64_base
 
 
-        module subroutine random_number_sclr_real64_base ( generator , harvest )
 
-            ! argument(s) for this <subroutine>
-            class (typ_generator64_base) , intent(inout) :: generator
-            real  (REAL64)               , intent(out)   :: harvest
+        module subroutine random_number_scalar_real64 ( generator , harvest )
 
-        end subroutine random_number_sclr_real64_base
+            class(typ_generator64_base) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            real(REAL64) , intent(out) :: harvest
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine random_number_scalar_real64
+
 
 
         module subroutine set_state_base ( generator , state )
 
-            ! argument(s) for this <subroutine>
-            class   (typ_generator64_base) , intent(inout) :: generator
-            integer (INT64)                , intent(in)    :: state(:)
+            class(typ_generator64_base) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            integer(INT64) , intent(in) :: state(:)
+            !! A dummy argument for this `SUBROUTINE`
 
         end subroutine set_state_base
 
 
         module subroutine update_state_base ( generator )
 
-            ! argument(s) for this <subroutine>
             class(typ_generator64_base) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
 
         end subroutine update_state_base
 
     end interface
 
 
-    ! for extended <type> :: typ_xoshiro256plus2
+
+    ! for `ABSTRACT` & `EXTENDS` `TYPE` :: `typ_xoshiro256`
     interface
 
-        module pure elemental function output_state_xoshiro256plus2 ( generator , index ) result( state )
+        module pure elemental function output_state_xoshiro256 ( generator , index ) result( state )
 
-            ! arguments for this <function>
-            class   (typ_xoshiro256plus2) , intent(in) :: generator
-            integer                       , intent(in) :: index
+            class(typ_xoshiro256) , intent(in) :: generator
+            !! A dummy argument for this `FUNCTION`
 
-            ! return value of this <function>
+            integer , intent(in) :: index
+            !! A dummy argument for this `FUNCTION`
+
             integer(INT64) :: state
+            !! The return value of this `FUNCTION`
 
-        end function output_state_xoshiro256plus2
-
-
-        module subroutine allocate_state_xoshiro256plus2 ( generator )
-
-            ! argument(s) for this <subroutine>
-            class(typ_xoshiro256plus2) , intent(inout) :: generator
-
-        end subroutine allocate_state_xoshiro256plus2
+        end function output_state_xoshiro256
 
 
-        module subroutine copy_state_xoshiro256plus2 ( generator , source )
 
-            ! argument(s) for this <subroutine>
-            class(typ_xoshiro256plus2)  , intent(inout) :: generator
-            class(typ_generator64_base) , intent(in)    :: source
+        module pure elemental function output_state_size_xoshiro256 () result( state_size )
 
-        end subroutine copy_state_xoshiro256plus2
+            integer :: state_size
+            !! The return value of this `FUNCTION`
 
-
-        module subroutine deallocate_state_xoshiro256plus2 ( generator )
-
-            ! argument(s) for this <subroutine>
-            class(typ_xoshiro256plus2) , intent(inout) :: generator
-
-        end subroutine deallocate_state_xoshiro256plus2
+        end function output_state_size_xoshiro256
 
 
-        module subroutine jump_state_core_xoshiro256plus2 ( generator , jump_param )
 
-            ! argument(s) for this <subroutine>
-            class   (typ_xoshiro256plus2) , intent(inout) :: generator
-            integer (INT64)               , intent(in)    :: jump_param (:)
+        module subroutine copy_state_xoshiro256 ( generator , source )
 
-        end subroutine jump_state_core_xoshiro256plus2
+            class(typ_xoshiro256) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
 
+            class(typ_xoshiro256) , intent(in) :: source
+            !! A dummy argument for this `SUBROUTINE`
 
-        module subroutine jump_state_xoshiro256plus2 ( generator )
-
-            ! argument(s) for this <subroutine>
-            class(typ_xoshiro256plus2) , intent(inout) :: generator
-
-        end subroutine jump_state_xoshiro256plus2
+        end subroutine copy_state_xoshiro256
 
 
-        module subroutine jump_state_long_xoshiro256plus2 ( generator )
 
-            ! argument(s) for this <subroutine>
-            class(typ_xoshiro256plus2) , intent(inout) :: generator
+        module subroutine jump_state_xoshiro256 ( generator )
 
-        end subroutine jump_state_long_xoshiro256plus2
+            class(typ_xoshiro256) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
 
-
-        module subroutine random_number_sclr_int64_xoshiro256plus2 ( generator , harvest )
-
-            ! argument(s) for this <subroutine>
-            class   (typ_xoshiro256plus2) , intent(inout) :: generator
-            integer (INT64)               , intent(out)   :: harvest
-
-        end subroutine random_number_sclr_int64_xoshiro256plus2
+        end subroutine jump_state_xoshiro256
 
 
-        module subroutine random_number_sclr_real64_xoshiro256plus2 ( generator , harvest )
 
-            ! argument(s) for this <subroutine>
-            class (typ_xoshiro256plus2) , intent(inout) :: generator
-            real  (REAL64)              , intent(out)   :: harvest
+        module subroutine jump_state_core_xoshiro256 ( generator , jump_param )
 
-        end subroutine random_number_sclr_real64_xoshiro256plus2
+            class(typ_xoshiro256) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
 
+            integer(INT64) , dimension(:),  intent(in) :: jump_param
+            !! A dummy argument for this `SUBROUTINE`
 
-        module subroutine set_state_xoshiro256plus2 ( generator , state )
-
-            ! argument(s) for this <subroutine>
-            class   (typ_xoshiro256plus2) , intent(inout) :: generator
-            integer (INT64)               , intent(in)    :: state(:)
-
-        end subroutine set_state_xoshiro256plus2
+        end subroutine jump_state_core_xoshiro256
 
 
-        module subroutine update_state_xoshiro256plus2 ( generator )
 
-            ! argument(s) for this <subroutine>
-            class(typ_xoshiro256plus2) , intent(inout) :: generator
+        module subroutine jump_state_long_xoshiro256 ( generator )
 
-        end subroutine update_state_xoshiro256plus2
+            class(typ_xoshiro256) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine jump_state_long_xoshiro256
+
+
+
+        module subroutine set_state_xoshiro256 ( generator , state )
+
+            class(typ_xoshiro256) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            integer(INT64) , dimension(:),  intent(in) :: state
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine set_state_xoshiro256
+
+
+
+        module subroutine update_state_xoshiro256 ( generator )
+
+            class(typ_xoshiro256) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine update_state_xoshiro256
 
     end interface
 
 
-    ! for extended <type> :: typ_xoshiro256star2
+
+    ! for `EXTENDS` `TYPE` :: `typ_xoshiro256plus2`
     interface
 
-        module pure elemental function output_state_xoshiro256star2 ( generator , index ) result( state )
+        module subroutine random_number_scalar_int64_xoshiro256plus2 ( generator , harvest )
 
-            ! arguments for this <function>
-            class   (typ_xoshiro256star2) , intent(in) :: generator
-            integer                       , intent(in) :: index
+            class(typ_xoshiro256plus2) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
 
-            ! return value of this <function>
-            integer(INT64) :: state
+            integer(INT64) , intent(out) :: harvest
+            !! A dummy argument for this `SUBROUTINE`
 
-        end function output_state_xoshiro256star2
+        end subroutine random_number_scalar_int64_xoshiro256plus2
+
+    end interface
 
 
-        module subroutine allocate_state_xoshiro256star2 ( generator )
 
-            ! argument(s) for this <subroutine>
+    ! for `EXTENDS` `TYPE` :: `typ_xoshiro256star2`
+    interface
+
+        module subroutine random_number_scalar_int64_xoshiro256star2 ( generator , harvest )
+
             class(typ_xoshiro256star2) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
 
-        end subroutine allocate_state_xoshiro256star2
+            integer(INT64) , intent(out) :: harvest
+            !! A dummy argument for this `SUBROUTINE`
 
-
-        module subroutine copy_state_xoshiro256star2 ( generator , source )
-
-            ! argument(s) for this <subroutine>
-            class(typ_xoshiro256star2)  , intent(inout) :: generator
-            class(typ_generator64_base) , intent(in)    :: source
-
-        end subroutine copy_state_xoshiro256star2
-
-
-        module subroutine deallocate_state_xoshiro256star2 ( generator )
-
-            ! argument(s) for this <subroutine>
-            class(typ_xoshiro256star2) , intent(inout) :: generator
-
-        end subroutine deallocate_state_xoshiro256star2
-
-
-        module subroutine jump_state_core_xoshiro256star2 ( generator , jump_param )
-
-            ! argument(s) for this <subroutine>
-            class   (typ_xoshiro256star2) , intent(inout) :: generator
-            integer (INT64)               , intent(in)    :: jump_param (:)
-
-        end subroutine jump_state_core_xoshiro256star2
-
-
-        module subroutine jump_state_xoshiro256star2 ( generator )
-
-            ! argument(s) for this <subroutine>
-            class(typ_xoshiro256star2) , intent(inout) :: generator
-
-        end subroutine jump_state_xoshiro256star2
-
-
-        module subroutine jump_state_long_xoshiro256star2 ( generator )
-
-            ! argument(s) for this <subroutine>
-            class(typ_xoshiro256star2) , intent(inout) :: generator
-
-        end subroutine jump_state_long_xoshiro256star2
-
-
-        module subroutine random_number_sclr_int64_xoshiro256star2 ( generator , harvest )
-
-            ! argument(s) for this <subroutine>
-            class   (typ_xoshiro256star2) , intent(inout) :: generator
-            integer (INT64)               , intent(out)   :: harvest
-
-        end subroutine random_number_sclr_int64_xoshiro256star2
-
-
-        module subroutine random_number_sclr_real64_xoshiro256star2 ( generator , harvest )
-
-            ! argument(s) for this <subroutine>
-            class (typ_xoshiro256star2) , intent(inout) :: generator
-            real  (REAL64)              , intent(out)   :: harvest
-
-        end subroutine random_number_sclr_real64_xoshiro256star2
-
-
-        module subroutine set_state_xoshiro256star2 ( generator , state )
-
-            ! argument(s) for this <subroutine>
-            class   (typ_xoshiro256star2) , intent(inout) :: generator
-            integer (INT64)               , intent(in)    :: state(:)
-
-        end subroutine set_state_xoshiro256star2
-
-
-        module subroutine update_state_xoshiro256star2 ( generator )
-
-            ! argument(s) for this <subroutine>
-            class(typ_xoshiro256star2) , intent(inout) :: generator
-
-        end subroutine update_state_xoshiro256star2
+        end subroutine random_number_scalar_int64_xoshiro256star2
 
     end interface
 

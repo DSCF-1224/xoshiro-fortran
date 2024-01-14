@@ -1,54 +1,24 @@
 submodule (pkg_xoshiro) imp_jump_state_core
 
-    ! contained <procedure>s, <subroutine>s and <function>s are below
+    implicit none
+
     contains
 
 
-    module procedure jump_state_core_xoshiro256plus2
 
-        ! STEP.01
-        call for_xoshiro256(                                       &!
-            generator  = generator                               , &!
-            size_state = output_size_state( generator , .true. ) , &!
-            jump_param = jump_param(:)                             &!
-        )
+    module procedure jump_state_core_xoshiro256
 
-        ! STEP.END
-        return
-
-    end procedure jump_state_core_xoshiro256plus2
+        integer(INT64) :: buffer_state( size( generator%state(:) ) )
+        !! A variable for this `SUBROUTINE`
 
 
-    module procedure jump_state_core_xoshiro256star2
 
-        ! STEP.01
-        call for_xoshiro256(                                       &!
-            generator  = generator                               , &!
-            size_state = output_size_state( generator , .true. ) , &!
-            jump_param = jump_param(:)                             &!
-        )
-
-        ! STEP.END
-        return
-
-    end procedure jump_state_core_xoshiro256star2
-
-
-    subroutine for_xoshiro256 ( generator , size_state , jump_param )
-
-        ! arguments for this <subroutine>
-        class   ( typ_generator64_base ) , intent(inout) :: generator
-        integer                          , intent(in)    :: size_state
-        integer (INT64)                  , intent(in)    :: jump_param (size_state)
-
-
-        ! variables for this <subroutine>
-        integer(INT64) :: buffer_state(size_state)
-
-
-        ! support variable(s) for this <subroutine>
         integer :: itr_pos
+        !! A support variable for this `SUBROUTINE`
+
         integer :: itr_prm
+        !! A support variable for this `SUBROUTINE`
+
 
 
         ! STEP.01
@@ -79,6 +49,6 @@ submodule (pkg_xoshiro) imp_jump_state_core
         ! STEP.END
         return
 
-    end subroutine for_xoshiro256
+    end procedure jump_state_core_xoshiro256
 
 end submodule imp_jump_state_core

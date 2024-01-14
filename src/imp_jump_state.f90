@@ -1,34 +1,27 @@
 submodule (pkg_xoshiro) imp_jump_state
 
-    ! constant(s) for this <submodule>
-    integer(INT64) , parameter :: jump_param_xoshiro256plus2( 4 ) = &!
+    implicit none
+
+
+
+    integer(INT64) , parameter , dimension(size_state_xoshiro256) :: jump_param_xoshiro256 = &!
         [&!
-            transfer( source= Z'180ec6d33cfd0aba' , mold= 0_INT64 ) , &!
-            transfer( source= Z'd5a61266f0c9392c' , mold= 0_INT64 ) , &!
-            transfer( source= Z'a9582618e03fc9aa' , mold= 0_INT64 ) , &!
-            transfer( source= Z'39abdc4529b1661c' , mold= 0_INT64 )   &!
+            +1733541517147835066_int64 , &! 0x180ec6d33cfd0aba
+            -3051731464161248980_int64 , &! 0xd5a61266f0c9392c
+            -6244198995065845334_int64 , &! 0xa9582618e03fc9aa
+            +4155657270789760540_int64   &! 0x39abdc4529b1661c
         ]
 
-    integer(INT64) , parameter :: jump_param_xoshiro256star2( size_state_xoshiro256star2 ) = jump_param_xoshiro256plus2(:)
 
 
-    ! contained <procedure>s, <subroutine>s and <function>s are below
     contains
 
 
-    module procedure jump_state_xoshiro256plus2
 
-        call generator%jump_state_core( jump_param_xoshiro256plus2 )
-        return
+    module procedure jump_state_xoshiro256
 
-    end procedure jump_state_xoshiro256plus2
+        call generator%jump_state_core( jump_param_xoshiro256(:) )
 
-
-    module procedure jump_state_xoshiro256star2
-
-        call generator%jump_state_core( jump_param_xoshiro256star2 )
-        return
-
-    end procedure jump_state_xoshiro256star2
+    end procedure jump_state_xoshiro256
 
 end submodule imp_jump_state

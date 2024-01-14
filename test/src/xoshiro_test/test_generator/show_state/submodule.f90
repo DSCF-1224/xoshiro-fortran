@@ -11,7 +11,7 @@ submodule (pkg_xoshiro_test : imp_test_generator) imp_show_state
 
         ! STEP.01
         ! Show the generated sample.
-        do itr = 1 , output_size_state( generator , .true. )
+        do itr = 1 , generator%output_state_size()
 
             call show_table_column (                      &!
                 comment = "state "                      , &!
