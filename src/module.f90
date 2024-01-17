@@ -25,9 +25,9 @@ module pkg_xoshiro
     integer , parameter :: size_state_xoshiro256 = 4
     !! A `PARAMETER` for this `MODULE`
     !! state array size for
-    !! - xoshiro256+`
-    !! - xoshiro256++`
-    !! - xoshiro256**`
+    !! - `xoshiro256+`
+    !! - `xoshiro256++`
+    !! - `xoshiro256**`
 
 
 
@@ -43,8 +43,8 @@ module pkg_xoshiro
 
         ! kind: `FUNCTION`
 
-        procedure( output_state_base      ) , deferred ,   pass , public :: output_state
-        procedure( output_state_size_base ) , deferred , nopass , public :: output_state_size
+        procedure( output_state_base      ) ,   pass , public , deferred :: output_state
+        procedure( output_state_size_base ) , nopass , public , deferred :: output_state_size
 
 
 
@@ -52,13 +52,14 @@ module pkg_xoshiro
 
         procedure , pass , private :: random_number_scalar_real64
 
-        procedure( jump_state_core_base            ) , deferred :: jump_state_core
-        procedure( jump_state_base                 ) , deferred :: jump_state
-        procedure( jump_state_long_base            ) , deferred :: jump_state_long
-        procedure( random_number_scalar_int64_base ) , deferred :: random_number_scalar_int64
-        procedure( set_state_base                  ) , deferred :: set_state
-        procedure( update_state_base               ) , deferred :: update_state
+        procedure( jump_state_base                 ) , pass , public  , deferred :: jump_state
+        procedure( jump_state_core_base            ) , pass , private , deferred :: jump_state_core
+        procedure( jump_state_long_base            ) , pass , public  , deferred :: jump_state_long
+        procedure( random_number_scalar_int64_base ) , pass , private , deferred :: random_number_scalar_int64
+        procedure( set_state_base                  ) , pass , public  , deferred :: set_state
+        procedure( update_state_base               ) , pass , public  , deferred :: update_state
 
+        generic , public :: random_number => random_number_scalar_int64
         generic , public :: random_number => random_number_scalar_real64 
 
     end type typ_generator64_base
@@ -78,23 +79,21 @@ module pkg_xoshiro
 
         ! kind: `FUNCTION`
 
-        procedure , public ,   pass :: output_state      => output_state_xoshiro256
-        procedure , public , nopass :: output_state_size => output_state_size_xoshiro256
+        procedure ,   pass , public :: output_state      => output_state_xoshiro256
+        procedure , nopass , public :: output_state_size => output_state_size_xoshiro256
 
 
 
         ! kind: `SUBROUTINE`
 
         procedure , pass , private :: copy_state_xoshiro256
+        procedure , pass , public  :: jump_state            => jump_state_xoshiro256
+        procedure , pass , private :: jump_state_core       => jump_state_core_xoshiro256
+        procedure , pass , public  :: jump_state_long       => jump_state_long_xoshiro256
+        procedure , pass , public  :: set_state             => set_state_xoshiro256
+        procedure , pass , public  :: update_state          => update_state_xoshiro256
 
-        procedure :: jump_state_core => jump_state_core_xoshiro256
-        procedure :: update_state    => update_state_xoshiro256
-
-        procedure , public :: jump_state      => jump_state_xoshiro256
-        procedure , public :: jump_state_long => jump_state_long_xoshiro256
-        procedure , public :: set_state       => set_state_xoshiro256
-
-        generic, public :: copy_state => copy_state_xoshiro256
+        generic , public :: copy_state => copy_state_xoshiro256
 
     end type typ_xoshiro256
 
@@ -110,9 +109,7 @@ module pkg_xoshiro
 
         ! kind: `SUBROUTINE`
 
-        procedure :: random_number_scalar_int64 => random_number_scalar_int64_xoshiro256plus2
-
-        generic , public :: random_number => random_number_scalar_int64
+        procedure , pass , private :: random_number_scalar_int64 => random_number_scalar_int64_xoshiro256plus2
 
     end type typ_xoshiro256plus2
 
@@ -128,9 +125,7 @@ module pkg_xoshiro
 
         ! kind: `SUBROUTINE`
 
-        procedure :: random_number_scalar_int64 => random_number_scalar_int64_xoshiro256star2
-
-        generic , public :: random_number => random_number_scalar_int64
+        procedure , pass , private :: random_number_scalar_int64 => random_number_scalar_int64_xoshiro256star2
 
     end type typ_xoshiro256star2
 
