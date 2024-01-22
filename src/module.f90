@@ -14,6 +14,7 @@ module pkg_xoshiro
 
     ! kind: type
     public :: typ_generator64_base
+    public :: typ_xoshiro256plus1
     public :: typ_xoshiro256plus2
     public :: typ_xoshiro256star2
 
@@ -96,6 +97,22 @@ module pkg_xoshiro
         generic , public :: copy_state => copy_state_xoshiro256
 
     end type typ_xoshiro256
+
+
+
+    type , extends(typ_xoshiro256) :: typ_xoshiro256plus1
+
+        private
+
+        contains
+
+
+
+        ! kind: `SUBROUTINE`
+
+        procedure , pass , private :: random_number_scalar_int64 => random_number_scalar_int64_xoshiro256plus1
+
+    end type typ_xoshiro256plus1
 
 
 
@@ -397,6 +414,23 @@ module pkg_xoshiro
             !! A dummy argument for this `SUBROUTINE`
 
         end subroutine update_state_xoshiro256
+
+    end interface
+
+
+
+    ! for `EXTENDS` `TYPE` :: `typ_xoshiro256plus1`
+    interface
+
+        module subroutine random_number_scalar_int64_xoshiro256plus1 ( generator , harvest )
+
+            class(typ_xoshiro256plus1) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            integer(INT64) , intent(out) :: harvest
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine random_number_scalar_int64_xoshiro256plus1
 
     end interface
 
