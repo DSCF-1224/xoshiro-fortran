@@ -5,6 +5,7 @@
 ### 1. Download following C source files
 
 - [xoshiro/xoroshiro generators and the PRNG shootout](https://prng.di.unimi.it/)
+  - [`xoshiro256+`](https://prng.di.unimi.it/xoshiro256plus.c) as `xoshiro256plus2_c_interface/xoshiro256plus-mod.c`
   - [`xoshiro256++`](https://prng.di.unimi.it/xoshiro256plusplus.c) as `xoshiro256plus2_c_interface/xoshiro256plusplus-mod.c`
   - [`xoshiro256**`](https://prng.di.unimi.it/xoshiro256starstar.c) as `xoshiro256plus2_c_interface/xoshiro256starstar-mod.c`
 
@@ -21,6 +22,7 @@ Add the following two lines to the end of the above source files.
 
 Go to the folder to test the target PRNG.
 
+- [`xoshiro256plus1`](xoshiro256plus1)
 - [`xoshiro256plus2`](xoshiro256plus2)
 - [`xoshiro256star2`](xoshiro256star2)
 

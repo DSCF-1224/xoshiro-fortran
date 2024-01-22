@@ -6,6 +6,18 @@ submodule (pkg_xoshiro) imp_random_number_scalar_int64
 
 
 
+    module procedure random_number_scalar_int64_xoshiro256plus1
+
+        associate( state => generator%state )
+            harvest = state(1) + state(4)
+        end associate
+
+        call generator%update_state
+
+    end procedure random_number_scalar_int64_xoshiro256plus1
+
+
+
     module procedure random_number_scalar_int64_xoshiro256plus2
 
         associate( state => generator%state )
