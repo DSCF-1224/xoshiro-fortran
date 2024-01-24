@@ -13,4 +13,13 @@ submodule (pkg_xoshiro) imp_copy_state
 
     end procedure copy_state_xoshiro256
 
+
+
+    module procedure copy_state_xoshiro512
+
+        generator % state(:) = &!
+        source    % state(:)
+
+    end procedure copy_state_xoshiro512
+
 end submodule imp_copy_state

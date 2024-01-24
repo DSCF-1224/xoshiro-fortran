@@ -14,6 +14,20 @@ submodule (pkg_xoshiro) imp_jump_state
 
 
 
+    integer(INT64) , parameter , dimension(size_state_xoshiro512) :: jump_param_xoshiro512 = &!
+        [&!
+            +3741798284078044153_int64 , &! 0x33ed89b6e7a353f9
+            +8502941058421957566_int64 , &! 0x760083d7955323be
+            +2898052048139464622_int64 , &! 0x2837f2fbb5f22fae
+            +5443821109340885276_int64 , &! 0x4b8c5674d309511c
+            -5685015549262525403_int64 , &! 0xb11ac47a7ba28c25
+            -1027253480086320100_int64 , &! 0xf1be7667092bcc1c
+            +6018250552094165679_int64 , &! 0x53851efdb6df0aaf
+            +2214584309664130523_int64   &! 0x1ebbc8b23eaf25db
+        ]
+
+
+
     contains
 
 
@@ -23,5 +37,13 @@ submodule (pkg_xoshiro) imp_jump_state
         call generator%jump_state_core( jump_param_xoshiro256(:) )
 
     end procedure jump_state_xoshiro256
+
+
+
+    module procedure jump_state_xoshiro512
+
+        call generator%jump_state_core( jump_param_xoshiro512(:) )
+
+    end procedure jump_state_xoshiro512
 
 end submodule imp_jump_state
