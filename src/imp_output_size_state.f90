@@ -12,4 +12,12 @@ submodule (pkg_xoshiro) imp_output_size_state
 
     end procedure output_state_size_xoshiro256
 
+
+
+    module procedure output_state_size_xoshiro512
+
+        state_size = size_state_xoshiro512
+
+    end procedure output_state_size_xoshiro512
+
 end submodule imp_output_size_state

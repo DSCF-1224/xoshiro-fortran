@@ -17,6 +17,9 @@ module pkg_xoshiro
     public :: typ_xoshiro256plus1
     public :: typ_xoshiro256plus2
     public :: typ_xoshiro256star2
+    public :: typ_xoshiro512plus1
+    public :: typ_xoshiro512plus2
+    public :: typ_xoshiro512star2
 
     ! kind: function
     public :: output_size_state
@@ -29,6 +32,15 @@ module pkg_xoshiro
     !! - `xoshiro256+`
     !! - `xoshiro256++`
     !! - `xoshiro256**`
+
+
+
+    integer , parameter :: size_state_xoshiro512 = 8
+    !! A `PARAMETER` for this `MODULE`
+    !! state array size for
+    !! - `xoshiro512+`
+    !! - `xoshiro512++`
+    !! - `xoshiro512**`
 
 
 
@@ -145,6 +157,87 @@ module pkg_xoshiro
         procedure , pass , private :: random_number_scalar_int64 => random_number_scalar_int64_xoshiro256star2
 
     end type typ_xoshiro256star2
+
+
+
+    type , abstract , extends(typ_generator64_base) :: typ_xoshiro512
+
+        integer(INT64) , private , dimension(size_state_xoshiro512) :: state
+        !! A field of this `TYPE`
+
+
+
+        contains
+
+
+
+        ! kind: `FUNCTION`
+
+        procedure ,   pass , public :: output_state      => output_state_xoshiro512
+        procedure , nopass , public :: output_state_size => output_state_size_xoshiro512
+
+
+
+        ! kind: `SUBROUTINE`
+
+        procedure , pass , private :: copy_state_xoshiro512
+        procedure , pass , public  :: jump_state            => jump_state_xoshiro512
+        procedure , pass , private :: jump_state_core       => jump_state_core_xoshiro512
+        procedure , pass , public  :: jump_state_long       => jump_state_long_xoshiro512
+        procedure , pass , public  :: set_state             => set_state_xoshiro512
+        procedure , pass , public  :: update_state          => update_state_xoshiro512
+
+        generic , public :: copy_state => copy_state_xoshiro512
+
+    end type typ_xoshiro512
+
+
+
+    type , extends(typ_xoshiro512) :: typ_xoshiro512plus1
+
+        private
+
+        contains
+
+
+
+        ! kind: `SUBROUTINE`
+
+        procedure , pass , private :: random_number_scalar_int64 => random_number_scalar_int64_xoshiro512plus1
+
+    end type typ_xoshiro512plus1
+
+
+
+    type , extends(typ_xoshiro512) :: typ_xoshiro512plus2
+
+        private
+
+        contains
+
+
+
+        ! kind: `SUBROUTINE`
+
+        procedure , pass , private :: random_number_scalar_int64 => random_number_scalar_int64_xoshiro512plus2
+
+    end type typ_xoshiro512plus2
+
+
+
+    type , extends(typ_xoshiro512) :: typ_xoshiro512star2
+
+        private
+
+        contains
+
+
+
+        ! kind: `SUBROUTINE`
+
+        procedure , pass , private :: random_number_scalar_int64 => random_number_scalar_int64_xoshiro512star2
+
+    end type typ_xoshiro512star2
 
 
 
@@ -465,6 +558,149 @@ module pkg_xoshiro
             !! A dummy argument for this `SUBROUTINE`
 
         end subroutine random_number_scalar_int64_xoshiro256star2
+
+    end interface
+
+
+
+    ! for `ABSTRACT` & `EXTENDS` `TYPE` :: `typ_xoshiro512`
+    interface
+
+        module pure elemental function output_state_xoshiro512 ( generator , index ) result( state )
+
+            class(typ_xoshiro512) , intent(in) :: generator
+            !! A dummy argument for this `FUNCTION`
+
+            integer , intent(in) :: index
+            !! A dummy argument for this `FUNCTION`
+
+            integer(INT64) :: state
+            !! The return value of this `FUNCTION`
+
+        end function output_state_xoshiro512
+
+
+
+        module pure elemental function output_state_size_xoshiro512 () result( state_size )
+
+            integer :: state_size
+            !! The return value of this `FUNCTION`
+
+        end function output_state_size_xoshiro512
+
+
+
+        module subroutine copy_state_xoshiro512 ( generator , source )
+
+            class(typ_xoshiro512) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            class(typ_xoshiro512) , intent(in) :: source
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine copy_state_xoshiro512
+
+
+
+        module subroutine jump_state_xoshiro512 ( generator )
+
+            class(typ_xoshiro512) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine jump_state_xoshiro512
+
+
+
+        module subroutine jump_state_core_xoshiro512 ( generator , jump_param )
+
+            class(typ_xoshiro512) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            integer(INT64) , dimension(:),  intent(in) :: jump_param
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine jump_state_core_xoshiro512
+
+
+
+        module subroutine jump_state_long_xoshiro512 ( generator )
+
+            class(typ_xoshiro512) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine jump_state_long_xoshiro512
+
+
+
+        module subroutine set_state_xoshiro512 ( generator , state )
+
+            class(typ_xoshiro512) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            integer(INT64) , dimension(:),  intent(in) :: state
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine set_state_xoshiro512
+
+
+
+        module subroutine update_state_xoshiro512 ( generator )
+
+            class(typ_xoshiro512) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine update_state_xoshiro512
+
+    end interface
+
+
+
+    ! for `EXTENDS` `TYPE` :: `typ_xoshiro512plus1`
+    interface
+
+        module subroutine random_number_scalar_int64_xoshiro512plus1 ( generator , harvest )
+
+            class(typ_xoshiro512plus1) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            integer(INT64) , intent(out) :: harvest
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine random_number_scalar_int64_xoshiro512plus1
+
+    end interface
+
+
+
+    ! for `EXTENDS` `TYPE` :: `typ_xoshiro512plus2`
+    interface
+
+        module subroutine random_number_scalar_int64_xoshiro512plus2 ( generator , harvest )
+
+            class(typ_xoshiro512plus2) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            integer(INT64) , intent(out) :: harvest
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine random_number_scalar_int64_xoshiro512plus2
+
+    end interface
+
+
+
+    ! for `EXTENDS` `TYPE` :: `typ_xoshiro512star2`
+    interface
+
+        module subroutine random_number_scalar_int64_xoshiro512star2 ( generator , harvest )
+
+            class(typ_xoshiro512star2) , intent(inout) :: generator
+            !! A dummy argument for this `SUBROUTINE`
+
+            integer(INT64) , intent(out) :: harvest
+            !! A dummy argument for this `SUBROUTINE`
+
+        end subroutine random_number_scalar_int64_xoshiro512star2
 
     end interface
 

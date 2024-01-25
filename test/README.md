@@ -8,6 +8,9 @@
   - [`xoshiro256+`](https://prng.di.unimi.it/xoshiro256plus.c) as `xoshiro256plus2_c_interface/xoshiro256plus-mod.c`
   - [`xoshiro256++`](https://prng.di.unimi.it/xoshiro256plusplus.c) as `xoshiro256plus2_c_interface/xoshiro256plusplus-mod.c`
   - [`xoshiro256**`](https://prng.di.unimi.it/xoshiro256starstar.c) as `xoshiro256plus2_c_interface/xoshiro256starstar-mod.c`
+  - [`xoshiro512+`](https://prng.di.unimi.it/xoshiro512plus.c) as `xoshiro512plus2_c_interface/xoshiro512plus-mod.c`
+  - [`xoshiro512++`](https://prng.di.unimi.it/xoshiro512plusplus.c) as `xoshiro512plus2_c_interface/xoshiro512plusplus-mod.c`
+  - [`xoshiro512**`](https://prng.di.unimi.it/xoshiro512starstar.c) as `xoshiro512plus2_c_interface/xoshiro512starstar-mod.c`
 
 ### 2. Add getter/setter for `static` variables in C source files
 
@@ -25,6 +28,9 @@ Go to the folder to test the target PRNG.
 - [`xoshiro256plus1`](xoshiro256plus1)
 - [`xoshiro256plus2`](xoshiro256plus2)
 - [`xoshiro256star2`](xoshiro256star2)
+- [`xoshiro512plus1`](xoshiro512plus1)
+- [`xoshiro512plus2`](xoshiro512plus2)
+- [`xoshiro512star2`](xoshiro512star2)
 
 ### 4. Run the test
 

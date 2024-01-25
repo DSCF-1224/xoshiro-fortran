@@ -4,3 +4,10 @@ xoshiro256plus2/build/*
 xoshiro256plus2_c_interface/*.c
 xoshiro256star2/build/*
 xoshiro256star2_c_interface/*.c
+
+xoshiro512plus1/build/*
+xoshiro512plus1_c_interface/*.c
+xoshiro512plus2/build/*
+xoshiro512plus2_c_interface/*.c
+xoshiro512star2/build/*
+xoshiro512star2_c_interface/*.c
