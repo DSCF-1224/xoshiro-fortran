@@ -6,6 +6,15 @@ submodule (pkg_xoshiro) imp_copy_state
 
 
 
+    module procedure copy_state_xoroshiro128
+
+        generator % state(:) = &!
+        source    % state(:)
+
+    end procedure copy_state_xoroshiro128
+
+
+
     module procedure copy_state_xoshiro256
 
         generator % state(:) = &!

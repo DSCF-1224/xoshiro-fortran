@@ -6,6 +6,14 @@ submodule (pkg_xoshiro) imp_output_state
 
 
 
+    module procedure output_state_xoroshiro128
+
+        state = generator%state( index )
+
+    end procedure output_state_xoroshiro128
+
+
+
     module procedure output_state_xoshiro256
 
         state = generator%state( index )

@@ -6,6 +6,56 @@ submodule (pkg_xoshiro) imp_update_state
 
 
 
+    module procedure update_state_core_xoroshiro128
+
+        integer(INT64) , dimension(size_state_xoroshiro128) :: state
+        !! A support variable for this `PROCEDURE`
+
+
+
+        state(:) = generator%state(:)
+
+        state(2) = ieor( i = state(1) , j = state(2) )
+
+        associate ( &!
+            i => ieor( i = rotl( i = state(1), shift= a ) , j = state(2) ) , &!
+            j => shiftl( i = state(2) , shift = b )                          &!
+        )
+
+            generator%state(1) = ieor( i , j )
+
+        end associate
+
+        generator%state(2) = rotl( i = state(2) , shift = c )
+
+    end procedure update_state_core_xoroshiro128
+
+
+
+    module procedure update_state_xoroshiro128plus1
+
+        call generator%update_state_core_xoroshiro128( a = 24 , b = 16 , c = 37 )
+
+    end procedure update_state_xoroshiro128plus1
+
+
+
+    module procedure update_state_xoroshiro128plus2
+
+        call generator%update_state_core_xoroshiro128( a = 49 , b = 21 , c = 28 )
+
+    end procedure update_state_xoroshiro128plus2
+
+
+
+    module procedure update_state_xoroshiro128star2
+
+        call generator%update_state_core_xoroshiro128( a = 24 , b = 16 , c = 37 )
+
+    end procedure update_state_xoroshiro128star2
+
+
+
     module procedure update_state_xoshiro256
 
         integer(INT64) :: temp

@@ -1,3 +1,10 @@
+xoroshiro128plus1/build/*
+xoroshiro128plus1_c_interface/*.c
+xoroshiro128plus2/build/*
+xoroshiro128plus2_c_interface/*.c
+xoroshiro128star2/build/*
+xoroshiro128star2_c_interface/*.c
+
 xoshiro256plus1/build/*
 xoshiro256plus1_c_interface/*.c
 xoshiro256plus2/build/*
