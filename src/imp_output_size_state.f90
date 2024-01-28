@@ -6,6 +6,14 @@ submodule (pkg_xoshiro) imp_output_size_state
 
 
 
+    module procedure output_state_size_xoroshiro128
+
+        state_size = size_state_xoroshiro128
+
+    end procedure output_state_size_xoroshiro128
+
+
+
     module procedure output_state_size_xoshiro256
 
         state_size = size_state_xoshiro256

@@ -32,6 +32,45 @@ submodule (pkg_xoshiro) imp_jump_state_long
 
 
 
+    module procedure jump_state_long_xoroshiro128plus1
+
+        call generator%jump_state_core( &!
+            [ &!
+                -3266927057705177477_int64 , &! 0xd2a98b26625eee7b
+                -2459076376072127807_int64   &! 0xdddf9b1090aa7ac1
+            ] &!
+        )
+
+    end procedure jump_state_long_xoroshiro128plus1
+
+
+
+    module procedure jump_state_long_xoroshiro128plus2
+
+        call generator%jump_state_core( &!
+            [ &!
+                +3895567441539718553_int64 , &! 0x360fd5f2cf8d5d99
+                -7174682294107748637_int64   &! 0x9c6e6877736c46e3
+            ] &!
+        )
+
+    end procedure jump_state_long_xoroshiro128plus2
+
+
+
+    module procedure jump_state_long_xoroshiro128star2
+
+        call generator%jump_state_core( &!
+            [ &!
+                -3266927057705177477_int64 , &! 0xd2a98b26625eee7b
+                -2459076376072127807_int64   &! 0xdddf9b1090aa7ac1
+            ] &!
+        )
+
+    end procedure jump_state_long_xoroshiro128star2
+
+
+
     module procedure jump_state_long_xoshiro256
 
         call generator%jump_state_core( jump_param_xoshiro256(:) )

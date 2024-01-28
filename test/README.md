@@ -5,6 +5,9 @@
 ### 1. Download following C source files
 
 - [xoshiro/xoroshiro generators and the PRNG shootout](https://prng.di.unimi.it/)
+  - [`xoroshiro128+`](https://prng.di.unimi.it/xoroshiro128plus.c) as `xoroshiro128plus2_c_interface/xoroshiro128plus-mod.c`
+  - [`xoroshiro128++`](https://prng.di.unimi.it/xoroshiro128plusplus.c) as `xoroshiro128plus2_c_interface/xoroshiro128plusplus-mod.c`
+  - [`xoroshiro128**`](https://prng.di.unimi.it/xoroshiro128starstar.c) as `xoroshiro128plus2_c_interface/xoroshiro128starstar-mod.c`
   - [`xoshiro256+`](https://prng.di.unimi.it/xoshiro256plus.c) as `xoshiro256plus2_c_interface/xoshiro256plus-mod.c`
   - [`xoshiro256++`](https://prng.di.unimi.it/xoshiro256plusplus.c) as `xoshiro256plus2_c_interface/xoshiro256plusplus-mod.c`
   - [`xoshiro256**`](https://prng.di.unimi.it/xoshiro256starstar.c) as `xoshiro256plus2_c_interface/xoshiro256starstar-mod.c`
@@ -25,6 +28,9 @@ Add the following two lines to the end of the above source files.
 
 Go to the folder to test the target PRNG.
 
+- [`xoroshiro128plus1`](xoroshiro128plus1)
+- [`xoroshiro128plus2`](xoroshiro128plus2)
+- [`xoroshiro128star2`](xoroshiro128star2)
 - [`xoshiro256plus1`](xoshiro256plus1)
 - [`xoshiro256plus2`](xoshiro256plus2)
 - [`xoshiro256star2`](xoshiro256star2)
